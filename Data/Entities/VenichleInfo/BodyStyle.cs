@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Data.Entities.Venichle.Venichle
+﻿namespace Data.Entities.VenichleInfo
 {
-    internal class BodyStyle
+    public class BodyStyle
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Style { get; set; }
         public ICollection<Venichle>? Venichles { get; set; }
 

@@ -1,8 +1,8 @@
-﻿namespace Data.Entities.Venichle
+﻿namespace Data.Entities.VenichleInfo
 {
     public class Venichle
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string VIN { get; set; }
         public int BrandId { get; set; }
         public int ModelId { get; set; }
