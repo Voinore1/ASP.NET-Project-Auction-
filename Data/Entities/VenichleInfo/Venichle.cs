@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string VIN { get; set; }
-        public int BrandId { get; set; }
+        public int BrandId { get; set; }a
         public int ModelId { get; set; }
         public int SeriesId { get; set; }
         public int? AuctionId { get; set; }
