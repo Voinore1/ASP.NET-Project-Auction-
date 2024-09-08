@@ -6,7 +6,6 @@
         public string Name { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
-        public ICollection<Series>? Series { get; set; }
         public ICollection<Venichle>? Venichles { get; set; }
     }
 }

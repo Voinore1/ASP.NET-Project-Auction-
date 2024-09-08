@@ -10,13 +10,16 @@ namespace Data.Entities
     {
         public int Id { get; set; }
         public int AuctionId { get; set; }
+        public int? ReplyCommentId { get; set; }
         public int UserId { get; set; }
         public string Text { get; set; }
         public DateTime Time { get; set; }
         public bool IsReply { get; set; }
         public bool IsSeller { get; set; }
 
+        public Comment? ReplyComment { get; set; }
         public User User { get; set; }
         public Auction Auction { get; set; }
+        public ICollection<Comment>? AddresedComments { get; set; }
     }
 }
