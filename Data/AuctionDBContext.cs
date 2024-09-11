@@ -28,6 +28,18 @@ namespace Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Auction>()
+                .HasOne(x => x.Seller)
+                .WithMany(x => x.Auctions)
+                .HasForeignKey(x => x.SellerId);
+
+            modelBuilder.Entity<Auction>()
+                .HasOne(x => x.Venichle)
+                .WithOne(x => x.Auction)
+                .HasForeignKey<Auction>(x => x.VenichleId);
+
+
+
             modelBuilder.Entity<User>().HasData(new[]
             {
                new User { Id = 1, Username = "admin", Email = "admin@gmail.com", Password = "1", PhoneNumber = 1954161, Balance = 1_000_000 } 
