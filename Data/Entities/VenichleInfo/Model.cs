@@ -1,4 +1,6 @@
-﻿namespace Data.Entities.VenichleInfo
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Data.Entities.VenichleInfo
 {
     public class Model
     {

@@ -24,15 +24,15 @@ namespace Data.Migrations
 
             modelBuilder.Entity("AuctionUser", b =>
                 {
+                    b.Property<int>("ViewersId")
+                        .HasColumnType("int");
+
                     b.Property<int>("WatchListId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WatchersId")
-                        .HasColumnType("int");
+                    b.HasKey("ViewersId", "WatchListId");
 
-                    b.HasKey("WatchListId", "WatchersId");
-
-                    b.HasIndex("WatchersId");
+                    b.HasIndex("WatchListId");
 
                     b.ToTable("AuctionUser");
                 });
@@ -87,6 +87,35 @@ namespace Data.Migrations
                     b.ToTable("Auctions");
                 });
 
+            modelBuilder.Entity("Data.Entities.Bid", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuctionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("BidTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bid");
+                });
+
             modelBuilder.Entity("Data.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -120,8 +149,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuctionId");
-
-                    b.HasIndex("ReplyCommentId");
 
                     b.HasIndex("UserId");
 
@@ -743,15 +770,15 @@ namespace Data.Migrations
 
             modelBuilder.Entity("AuctionUser", b =>
                 {
-                    b.HasOne("Data.Entities.Auction", null)
+                    b.HasOne("Data.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("WatchListId")
+                        .HasForeignKey("ViewersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", null)
+                    b.HasOne("Data.Entities.Auction", null)
                         .WithMany()
-                        .HasForeignKey("WatchersId")
+                        .HasForeignKey("WatchListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -761,13 +788,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "Seller")
                         .WithMany("Auctions")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Venichle", "Venichle")
                         .WithOne("Auction")
                         .HasForeignKey("Data.Entities.Auction", "VenichleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Seller");
@@ -775,27 +802,40 @@ namespace Data.Migrations
                     b.Navigation("Venichle");
                 });
 
+            modelBuilder.Entity("Data.Entities.Bid", b =>
+                {
+                    b.HasOne("Data.Entities.Auction", "Auction")
+                        .WithMany("Bids")
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.User", "User")
+                        .WithMany("Bids")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Auction");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Data.Entities.Comment", b =>
                 {
                     b.HasOne("Data.Entities.Auction", "Auction")
                         .WithMany("Comments")
                         .HasForeignKey("AuctionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("Data.Entities.Comment", "ReplyComment")
-                        .WithMany("AddresedComments")
-                        .HasForeignKey("ReplyCommentId");
 
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Auction");
-
-                    b.Navigation("ReplyComment");
 
                     b.Navigation("User");
                 });
@@ -803,9 +843,9 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.VenichleInfo.Model", b =>
                 {
                     b.HasOne("Data.Entities.VenichleInfo.Brand", "Brand")
-                        .WithMany("Model")
+                        .WithMany("Models")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Brand");
@@ -816,37 +856,37 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.VenichleInfo.BodyStyle", "BodyStyle")
                         .WithMany("Venichles")
                         .HasForeignKey("BodyStyleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Brand", "Brand")
                         .WithMany("Venichles")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.FuelType", "FuelType")
                         .WithMany("Venichles")
                         .HasForeignKey("FuelTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Model", "Model")
                         .WithMany("Venichles")
                         .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.User", "Owner")
                         .WithMany("Venichles")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Transmission", "Transmission")
                         .WithMany("Venichles")
                         .HasForeignKey("TransmissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("BodyStyle");
@@ -864,17 +904,16 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Auction", b =>
                 {
-                    b.Navigation("Comments");
-                });
+                    b.Navigation("Bids");
 
-            modelBuilder.Entity("Data.Entities.Comment", b =>
-                {
-                    b.Navigation("AddresedComments");
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("Data.Entities.User", b =>
                 {
                     b.Navigation("Auctions");
+
+                    b.Navigation("Bids");
 
                     b.Navigation("Comments");
 
@@ -888,7 +927,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.VenichleInfo.Brand", b =>
                 {
-                    b.Navigation("Model");
+                    b.Navigation("Models");
 
                     b.Navigation("Venichles");
                 });

@@ -11,6 +11,7 @@ namespace Data.Entities
         public int PhoneNumber { get; set; }
         public int Balance { get; set; }
 
+        public ICollection<Bid>? Bids { get; set; }
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<Auction>? Auctions { get; set; }
         public ICollection<Auction>? WatchList { get; set; } 

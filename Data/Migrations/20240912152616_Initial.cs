@@ -98,8 +98,7 @@ namespace Data.Migrations
                         name: "FK_Models_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -131,38 +130,32 @@ namespace Data.Migrations
                         name: "FK_Venichles_BodyStyles_BodyStyleId",
                         column: x => x.BodyStyleId,
                         principalTable: "BodyStyles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Venichles_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Venichles_FuelTypes_FuelTypeId",
                         column: x => x.FuelTypeId,
                         principalTable: "FuelTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Venichles_Models_ModelId",
                         column: x => x.ModelId,
                         principalTable: "Models",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Venichles_Transmissions_TransmissionId",
                         column: x => x.TransmissionId,
                         principalTable: "Transmissions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Venichles_Users_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -189,26 +182,24 @@ namespace Data.Migrations
                         name: "FK_Auctions_Users_SellerId",
                         column: x => x.SellerId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Auctions_Venichles_VenichleId",
                         column: x => x.VenichleId,
                         principalTable: "Venichles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "AuctionUser",
                 columns: table => new
                 {
-                    WatchListId = table.Column<int>(type: "int", nullable: false),
-                    WatchersId = table.Column<int>(type: "int", nullable: false)
+                    ViewersId = table.Column<int>(type: "int", nullable: false),
+                    WatchListId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuctionUser", x => new { x.WatchListId, x.WatchersId });
+                    table.PrimaryKey("PK_AuctionUser", x => new { x.ViewersId, x.WatchListId });
                     table.ForeignKey(
                         name: "FK_AuctionUser_Auctions_WatchListId",
                         column: x => x.WatchListId,
@@ -216,11 +207,38 @@ namespace Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuctionUser_Users_WatchersId",
-                        column: x => x.WatchersId,
+                        name: "FK_AuctionUser_Users_ViewersId",
+                        column: x => x.ViewersId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bid",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AuctionId = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<int>(type: "int", nullable: false),
+                    BidTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bid", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bid_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bid_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -244,19 +262,12 @@ namespace Data.Migrations
                         name: "FK_Comments_Auctions_AuctionId",
                         column: x => x.AuctionId,
                         principalTable: "Auctions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comments_Comments_ReplyCommentId",
-                        column: x => x.ReplyCommentId,
-                        principalTable: "Comments",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -383,19 +394,24 @@ namespace Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuctionUser_WatchersId",
+                name: "IX_AuctionUser_WatchListId",
                 table: "AuctionUser",
-                column: "WatchersId");
+                column: "WatchListId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bid_AuctionId",
+                table: "Bid",
+                column: "AuctionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bid_UserId",
+                table: "Bid",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_AuctionId",
                 table: "Comments",
                 column: "AuctionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_ReplyCommentId",
-                table: "Comments",
-                column: "ReplyCommentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_UserId",
@@ -443,6 +459,9 @@ namespace Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AuctionUser");
+
+            migrationBuilder.DropTable(
+                name: "Bid");
 
             migrationBuilder.DropTable(
                 name: "Comments");

@@ -17,9 +17,7 @@ namespace Data.Entities
         public bool IsReply { get; set; }
         public bool IsSeller { get; set; }
 
-        public Comment? ReplyComment { get; set; }
         public User User { get; set; }
         public Auction Auction { get; set; }
-        public ICollection<Comment>? AddresedComments { get; set; }
     }
 }
