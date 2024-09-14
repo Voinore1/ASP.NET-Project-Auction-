@@ -1,0 +1,16 @@
+﻿@model List<Venichle>
+
+<h2>My venichles</h2>
+
+<div class="d-flex flex-row flex-wrap justify-content-between">
+    @foreach (var i in Model)
+    {
+        <div class="card mb-4" style="width: 24%;">
+            <img src="@i.MainPhotoURL" class="card-img-top overflow-hidden" style="height: 200px">
+            <div class="card-body">
+                <p class="fw-bold fs-4">@i.ManufactureDate @i.Brand.Name @i.Model.Name</p>
+                <p class="fs-6">~@i.Odometr km</p>
+            </div>
+        </div>
+    }
+</div>

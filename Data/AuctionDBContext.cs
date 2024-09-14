@@ -28,15 +28,15 @@ namespace Data
 
         }
 
-        DbSet<BodyStyle> BodyStyles { get; set; }
-        DbSet<Brand> Brands { get; set; }
-        DbSet<FuelType> FuelTypes { get; set; }
-        DbSet<Entities.VenichleInfo.Model> Models { get; set; }
-        DbSet<Transmission> Transmissions { get; set; }
-        DbSet<User> Users { get; set; }
-        DbSet<Venichle> Venichles { get; set; }
-        DbSet<Auction> Auctions { get; set; }
-        DbSet<Comment> Comments { get; set; }
+        public DbSet<BodyStyle> BodyStyles { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<FuelType> FuelTypes { get; set; }
+        public DbSet<Entities.VenichleInfo.Model> Models { get; set; }
+        public DbSet<Transmission> Transmissions { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Venichle> Venichles { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
     }
 }

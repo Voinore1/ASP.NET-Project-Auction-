@@ -4,21 +4,35 @@
     {
         public int Id { get; set; }
         public string VIN { get; set; }
+        public int ManufactureDate { get; set; }
+        public int Odometr { get; set; }
+        public int Seats { get; set; }
+        public string ExteriorColor { get; set; }
+        public bool IsModified { get; set; }
+        public bool HaveProblems { get; set; }
+        public string? Problems { get; set; }
+        public string? Description { get; set; }
+
+
+
+        public string MainPhotoURL { get; set; }
+        public List<string>? ExteriorPhotosURL { get; set; }
+        public List<string>? InteriorPhotosURL { get; set; }
+
+
+
+
+
         public int BrandId { get; set; }
         public int OwnerId { get; set; }    
         public int ModelId { get; set; }
         public int? AuctionId { get; set; }
-        public int ManufactureDate { get; set; }
-        public int Odometr { get; set; }
-        public double FuelConsumption { get; set; }
-        public int Seats { get; set; }
-        public double ToHundred { get; set; }
-        public string ExteriorColor { get; set; }
         public int BodyStyleId { get; set; }
         public int FuelTypeId { get; set; }
         public int TransmissionId { get; set; }
 
-        public ICollection<string>? PictureURLs { get; set; }
+
+
         public BodyStyle BodyStyle { get; set; }
         public FuelType FuelType { get; set; }
         public Transmission Transmission { get; set; }

@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow  mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-3">
             <div class="container-fluid d-flex align-items-end">
                 <a class="navbar-brand mr-4 fw-bold fs-2 me-4 " asp-area="" asp-controller="Home" asp-action="Index">bids<span>&</span>cars</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -27,7 +27,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark rounded-pill bg-success  px-3 mt-1" asp-area="" asp-controller="Home" asp-action="Index">Sell a Car</a>
+                            <a class="nav-link text-dark rounded-pill bg-success  px-3 mt-1" asp-controller="Account" asp-action="SellCar">Sell a Car</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Community</a>
@@ -49,21 +49,22 @@
                                 <input placeholder="Search for cars" type="text" class="form-control"/>
                             </form>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item mx-1">
                             <a class="btn btn-light text-black">
                                 <i class="bi bi-bell"></i>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                @*     WIP: find car icon     *@
+                                <i class="bi bi-car-front-fill"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg-end">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Watch List</a></li>
-                                <li><a class="dropdown-item" href="#">Seller Dashboard</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                                <li><a class="dropdown-item nav-link" href="#">Profile</a></li>
+                                <li><a class="dropdown-item nav-link" href="#">Watch List</a></li>
+                                <li><a class="dropdown-item nav-link" href="#">Seller Dashboard</a></li>
+                                <li><a class="dropdown-item nav-link" asp-controller="Account" asp-action="MyCars">My venichle</a></li>
+                                <li><a class="dropdown-item nav-link" href="#">Settings</a></li>
+                                <li><a class="dropdown-item nav-link" href="#">Sign out</a></li>
                             </ul>
                         </li>
 
@@ -79,9 +80,7 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - WebApplication1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+        
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
