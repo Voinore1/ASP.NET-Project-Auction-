@@ -196,6 +196,80 @@ namespace Data
                     OwnerId = 1
                 }
             });
+
+            modelBuilder.Entity<Auction>().HasData(new[]
+            {
+                new Auction
+                {
+                    Id = 1,
+                    VenichleId = 1,
+                    SellerId = 1,
+                    TimeStart = DateTime.Now,
+                    TimeEnd = DateTime.Now.AddDays(7),
+                    Name = "Chevrolet Corvette 2007",
+                    StartPrice = 20_000,
+                    CurrentPrice = 20_000,
+                    Step = 500,
+                    IsSold = false,
+                    CityNow = "Kyiv"
+                },
+                new Auction
+                {
+                    Id = 2,
+                    VenichleId = 2,
+                    SellerId = 1,
+                    TimeStart = DateTime.Now,
+                    TimeEnd = DateTime.Now.AddDays(7),
+                    Name = "Audi A3 2019",
+                    StartPrice = 30_000,
+                    CurrentPrice = 30_000,
+                    Step = 500,
+                    IsSold = false,
+                    CityNow = "Kyiv"
+                },
+                new Auction
+                {
+                    Id = 3,
+                    VenichleId = 3,
+                    SellerId = 1,
+                    TimeStart = DateTime.Now,
+                    TimeEnd = DateTime.Now.AddDays(7),
+                    Name = "BMW 3 Series 2013",
+                    StartPrice = 25_000,
+                    CurrentPrice = 25_000,
+                    Step = 500,
+                    IsSold = false,
+                    CityNow = "Kyiv"
+                },
+                new Auction
+                {
+                    Id = 4,
+                    VenichleId = 4,
+                    SellerId = 1,
+                    TimeStart = DateTime.Now,
+                    TimeEnd = DateTime.Now.AddDays(7),
+                    Name = "Ford F-150 2014",
+                    StartPrice = 35_000,
+                    CurrentPrice = 35_000,
+                    Step = 500,
+                    IsSold = false,
+                    CityNow = "Kyiv"
+                },
+                new Auction
+                {
+                    Id = 5,
+                    VenichleId = 5,
+                    SellerId = 1,
+                    TimeStart = DateTime.Now,
+                    TimeEnd = DateTime.Now.AddDays(7),
+                    Name = "Tesla Model 3 2019",
+                    StartPrice = 40_000,
+                    CurrentPrice = 40_000,
+                    Step = 500,
+                    IsSold = false,
+                    CityNow = "Kyiv"
+                }
+            });
         }
     }
 }

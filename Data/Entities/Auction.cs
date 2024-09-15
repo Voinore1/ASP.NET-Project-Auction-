@@ -20,6 +20,6 @@ namespace Data.Entities
         public Venichle Venichle { get; set; }
         public ICollection<User>? Viewers { get; set; }
         public ICollection<Comment>? Comments { get; set; }
-        public ICollection<Bid> Bids { get; set; }
+        public ICollection<Bid>? Bids { get; set; }
     }
 }

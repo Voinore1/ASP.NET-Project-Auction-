@@ -1,2 +1,20 @@
-﻿@model List<Venichle>
+﻿@model List<Auction>
+<h2>Auctions</h2>
 
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 product-list">
+    @foreach (var i in Model)
+    {
+        <div class="col">
+            <div class="card h-100 text-center">
+                <img src="@i.Venichle.MainPhotoURL" class="card-img-top overflow-hidden" style="height: 200px;">
+                <div class="card-body">
+                    <h5 class="card-title">@i.Name</h5>
+                    <p class="card-text">@i.CurrentPrice$</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary">Add to whatchlist</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
