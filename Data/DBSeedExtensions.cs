@@ -211,7 +211,8 @@ namespace Data
                     CurrentPrice = 20_000,
                     Step = 500,
                     IsSold = false,
-                    CityNow = "Kyiv"
+                    CityNow = "Kyiv",
+                    MinDescription = "500-hp V8, Rare DTM-Inspired CLK, Mostly Unmodified"
                 },
                 new Auction
                 {
@@ -225,7 +226,8 @@ namespace Data
                     CurrentPrice = 30_000,
                     Step = 500,
                     IsSold = false,
-                    CityNow = "Kyiv"
+                    CityNow = "Kyiv",
+                    MinDescription = "~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified"
                 },
                 new Auction
                 {
@@ -239,7 +241,8 @@ namespace Data
                     CurrentPrice = 25_000,
                     Step = 500,
                     IsSold = false,
-                    CityNow = "Kyiv"
+                    CityNow = "Kyiv",
+                    MinDescription = "Twin-Turbo V8, Sport Package, Some Modifications"
                 },
                 new Auction
                 {
@@ -253,7 +256,8 @@ namespace Data
                     CurrentPrice = 35_000,
                     Step = 500,
                     IsSold = false,
-                    CityNow = "Kyiv"
+                    CityNow = "Kyiv",
+                    MinDescription = "V10 Power, Rod Bearings Replaced, Mostly Unmodified"
                 },
                 new Auction
                 {
@@ -267,7 +271,8 @@ namespace Data
                     CurrentPrice = 40_000,
                     Step = 500,
                     IsSold = false,
-                    CityNow = "Kyiv"
+                    CityNow = "Kyiv",
+                    MinDescription = "~37,000 Miles, Rare Coupe Model, 5-Speed Manual, Extensively Modified"
                 }
             });
         }

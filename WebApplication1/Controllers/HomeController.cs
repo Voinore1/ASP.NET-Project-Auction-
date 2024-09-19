@@ -21,5 +21,10 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        public IActionResult Auction()
+        {
+            return View();
+        }
+
     }
 }

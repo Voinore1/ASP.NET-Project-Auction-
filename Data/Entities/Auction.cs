@@ -10,6 +10,7 @@ namespace Data.Entities
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
         public string Name { get; set; }
+        public string MinDescription { get; set; }
         public int StartPrice { get; set; }
         public int CurrentPrice { get; set; }
         public int Step { get; set; }
