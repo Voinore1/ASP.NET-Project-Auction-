@@ -209,7 +209,6 @@ namespace Data
                     Name = "Chevrolet Corvette 2007",
                     StartPrice = 20_000,
                     CurrentPrice = 20_000,
-                    Step = 500,
                     IsSold = false,
                     CityNow = "Kyiv",
                     MinDescription = "500-hp V8, Rare DTM-Inspired CLK, Mostly Unmodified"
@@ -224,7 +223,6 @@ namespace Data
                     Name = "Audi A3 2019",
                     StartPrice = 30_000,
                     CurrentPrice = 30_000,
-                    Step = 500,
                     IsSold = false,
                     CityNow = "Kyiv",
                     MinDescription = "~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified"
@@ -239,7 +237,6 @@ namespace Data
                     Name = "BMW 3 Series 2013",
                     StartPrice = 25_000,
                     CurrentPrice = 25_000,
-                    Step = 500,
                     IsSold = false,
                     CityNow = "Kyiv",
                     MinDescription = "Twin-Turbo V8, Sport Package, Some Modifications"
@@ -254,7 +251,6 @@ namespace Data
                     Name = "Ford F-150 2014",
                     StartPrice = 35_000,
                     CurrentPrice = 35_000,
-                    Step = 500,
                     IsSold = false,
                     CityNow = "Kyiv",
                     MinDescription = "V10 Power, Rod Bearings Replaced, Mostly Unmodified"
@@ -269,7 +265,6 @@ namespace Data
                     Name = "Tesla Model 3 2019",
                     StartPrice = 40_000,
                     CurrentPrice = 40_000,
-                    Step = 500,
                     IsSold = false,
                     CityNow = "Kyiv",
                     MinDescription = "~37,000 Miles, Rare Coupe Model, 5-Speed Manual, Extensively Modified"

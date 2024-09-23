@@ -1,1 +1,67 @@
-﻿
+﻿@model Auction
+
+<div class="centered">
+    <form class="row g-3" method="post" asp-action="SellCar">
+        <div class="col-12">
+            <label class="form-label">VIN</label>
+            <input asp-for="Venichle.VIN" type="text" class="form-control" placeholder="WMWXM5C59ET932854">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Year</label>
+            <select asp-for="Venichle.ManufactureDate" type="number" class="form-control">
+                <option disabled selected>Choose...</option>
+                @for (int i = 0; i < 50; i++)
+                {
+                    <option>@(DateTime.Now.Year - i)</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Brand</label>
+            <select asp-for="Venichle.BrandId" asp-items="ViewBag.Brands" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Model</label>
+            <input type="text" class="form-control" id="inputModel">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Country, City</label>
+            <input asp-for="CityNow" type="text" class="form-control" placeholder="Ukraine, Rivne">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Transmission</label>
+            <select asp-for="Venichle.TransmissionId" asp-items="ViewBag.Transmissions" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Odometr(in km)</label>
+            <input asp-for="Venichle.Odometr" step="100" type="number" class="form-control" placeholder="100000">
+        </div>
+        <div class="btn-group col-md-12" role="group">
+            <input asp-for="Venichle.IsModified" type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+            <label class="btn btn-outline-dark" for="btncheck1">Modified</label>
+
+            <input asp-for="Venichle.HaveProblems" type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+            <label class="btn btn-outline-dark" for="btncheck2">Have problems</label>
+
+        </div>
+        <div class="col-md-2">
+            <label for="inputZip" class="form-label">Zip</label>
+            <input type="text" class="form-control" id="inputZip">
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Check me out
+                </label>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+    </form>
+</div>

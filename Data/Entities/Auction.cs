@@ -13,7 +13,6 @@ namespace Data.Entities
         public string MinDescription { get; set; }
         public int StartPrice { get; set; }
         public int CurrentPrice { get; set; }
-        public int Step { get; set; }
         public bool IsSold { get; set; }
         public string CityNow { get; set; }
 
