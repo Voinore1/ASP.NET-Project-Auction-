@@ -69,9 +69,6 @@ namespace Data.Migrations
                     b.Property<int>("StartPrice")
                         .HasColumnType("int");
 
-                    b.Property<int>("Step")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("TimeEnd")
                         .HasColumnType("datetime2");
 
@@ -101,9 +98,8 @@ namespace Data.Migrations
                             Name = "Chevrolet Corvette 2007",
                             SellerId = 1,
                             StartPrice = 20000,
-                            Step = 500,
-                            TimeEnd = new DateTime(2024, 9, 26, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3213),
-                            TimeStart = new DateTime(2024, 9, 19, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3148),
+                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6576),
+                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6522),
                             VenichleId = 1
                         },
                         new
@@ -116,9 +112,8 @@ namespace Data.Migrations
                             Name = "Audi A3 2019",
                             SellerId = 1,
                             StartPrice = 30000,
-                            Step = 500,
-                            TimeEnd = new DateTime(2024, 9, 26, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3230),
-                            TimeStart = new DateTime(2024, 9, 19, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3226),
+                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6584),
+                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6582),
                             VenichleId = 2
                         },
                         new
@@ -131,9 +126,8 @@ namespace Data.Migrations
                             Name = "BMW 3 Series 2013",
                             SellerId = 1,
                             StartPrice = 25000,
-                            Step = 500,
-                            TimeEnd = new DateTime(2024, 9, 26, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3239),
-                            TimeStart = new DateTime(2024, 9, 19, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3236),
+                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6590),
+                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6588),
                             VenichleId = 3
                         },
                         new
@@ -146,9 +140,8 @@ namespace Data.Migrations
                             Name = "Ford F-150 2014",
                             SellerId = 1,
                             StartPrice = 35000,
-                            Step = 500,
-                            TimeEnd = new DateTime(2024, 9, 26, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3247),
-                            TimeStart = new DateTime(2024, 9, 19, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3244),
+                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6596),
+                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6594),
                             VenichleId = 4
                         },
                         new
@@ -161,9 +154,8 @@ namespace Data.Migrations
                             Name = "Tesla Model 3 2019",
                             SellerId = 1,
                             StartPrice = 40000,
-                            Step = 500,
-                            TimeEnd = new DateTime(2024, 9, 26, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3255),
-                            TimeStart = new DateTime(2024, 9, 19, 0, 16, 57, 248, DateTimeKind.Local).AddTicks(3252),
+                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6601),
+                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6599),
                             VenichleId = 5
                         });
                 });
@@ -731,7 +723,7 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ExteriorPhotosURL")
+                    b.Property<string>("ExteriorPhotosURLId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FuelTypeId")
@@ -740,8 +732,18 @@ namespace Data.Migrations
                     b.Property<bool>("HaveProblems")
                         .HasColumnType("bit");
 
-                    b.Property<string>("InteriorPhotosURL")
+                    b.Property<string>("InteriorColor")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InteriorPhotosURLId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsHTMLDescription")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsHTMLProblemList")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsModified")
                         .HasColumnType("bit");
@@ -764,9 +766,6 @@ namespace Data.Migrations
 
                     b.Property<string>("Problems")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Seats")
-                        .HasColumnType("int");
 
                     b.Property<int>("TransmissionId")
                         .HasColumnType("int");
@@ -801,13 +800,15 @@ namespace Data.Migrations
                             ExteriorColor = "Black",
                             FuelTypeId = 1,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            IsHTMLDescription = false,
+                            IsHTMLProblemList = false,
                             IsModified = true,
                             MainPhotoURL = "https://images.unsplash.com/photo-1672151574300-b32db79a42db?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                             ManufactureDate = 2007,
                             ModelId = 18,
                             Odometr = 100000,
                             OwnerId = 1,
-                            Seats = 2,
                             TransmissionId = 2,
                             VIN = "1G1YY26U575100001"
                         },
@@ -818,15 +819,19 @@ namespace Data.Migrations
                             BrandId = 1,
                             Description = "Audi A3 in excellent condition",
                             ExteriorColor = "White",
+                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             FuelTypeId = 1,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
+                            IsHTMLDescription = false,
+                            IsHTMLProblemList = false,
                             IsModified = false,
                             MainPhotoURL = "https://images.unsplash.com/photo-1717711081688-985a7a3e6a9f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                             ManufactureDate = 2019,
                             ModelId = 1,
                             Odometr = 20000,
                             OwnerId = 1,
-                            Seats = 5,
                             TransmissionId = 2,
                             VIN = "WAUZZZ8V7KA123456"
                         },
@@ -837,15 +842,19 @@ namespace Data.Migrations
                             BrandId = 2,
                             Description = "BMW 3 Series, well maintained",
                             ExteriorColor = "Blue",
+                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             FuelTypeId = 1,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
+                            IsHTMLDescription = false,
+                            IsHTMLProblemList = false,
                             IsModified = false,
                             MainPhotoURL = "https://www.topgear.com/sites/default/files/2022/11/P90485000_highRes_bmw-330e-xdrive-tour.jpg",
                             ManufactureDate = 2013,
                             ModelId = 11,
                             Odometr = 60000,
                             OwnerId = 1,
-                            Seats = 5,
                             TransmissionId = 2,
                             VIN = "WBA3A5C50DF123456"
                         },
@@ -856,15 +865,19 @@ namespace Data.Migrations
                             BrandId = 4,
                             Description = "Ford F-150, great for off-road",
                             ExteriorColor = "Silver",
+                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             FuelTypeId = 2,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
+                            IsHTMLDescription = false,
+                            IsHTMLProblemList = false,
                             IsModified = true,
                             MainPhotoURL = "https://i.infocar.ua/i/12/6467/1400x936.jpg",
                             ManufactureDate = 2014,
                             ModelId = 22,
                             Odometr = 70000,
                             OwnerId = 1,
-                            Seats = 5,
                             TransmissionId = 2,
                             VIN = "1FTFW1EF1EK123456"
                         },
@@ -875,15 +888,19 @@ namespace Data.Migrations
                             BrandId = 10,
                             Description = "Tesla Model 3, electric car",
                             ExteriorColor = "Black",
+                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             FuelTypeId = 3,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
+                            IsHTMLDescription = false,
+                            IsHTMLProblemList = false,
                             IsModified = false,
                             MainPhotoURL = "https://tsk.ua/datacache/f/8/f/9/4/f8f948db809a2713f2790bb16426a365a26df356.jpeg",
                             ManufactureDate = 2019,
                             ModelId = 24,
                             Odometr = 20000,
                             OwnerId = 1,
-                            Seats = 5,
                             TransmissionId = 2,
                             VIN = "5YJ3E1EA7KF123456"
                         });

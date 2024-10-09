@@ -1,5 +1,6 @@
 ﻿
 using Data;
+using Data.Entities;
 using Data.Entities.VenichleInfo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,28 +22,96 @@ namespace WebApplication1.Controllers
         {
             ViewBag.Transmissions = new SelectList(context.Transmissions.ToList(), "Id", "Name");
         }
-
+        private void LoadBodyStyles()
+        {
+            ViewBag.BodyStyles = new SelectList(context.BodyStyles.ToList(), "Id", "Style");
+        }
+        private void LoadFuelTypes()
+        {
+            ViewBag.FuelTypes = new SelectList(context.FuelTypes.ToList(), "Id", "Name");
+        }
+        private void LoadAll() 
+        {
+            ViewBag.Colors = new SelectList(new string[] { "Red", "Blue", "Green", "Black", "White", "Yellow", "Orange", "Purple", "Pink", "Brown", "Grey", "Silver", "Gold", "Beige", "Other" });
+            LoadBrands();
+            LoadTransmissions();
+            LoadBodyStyles();
+            LoadFuelTypes();
+        }
         [HttpGet]
         public IActionResult SellCar()
         {
-            LoadBrands();
-            LoadTransmissions();
+            LoadAll();
 
             return View();
         }
 
 
         [HttpPost]
-        public IActionResult SellCar(Venichle venichle)
+        public IActionResult SellCar(Auction model)
         {
+            if (!ModelState.IsValid)
+            {
+                LoadAll();
+                return View(model);
+            }
+
+            context.Auctions.Add(model);
+            context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult AddCar()
+        {
+            LoadAll();
+
             return View();
         }
 
-        public IActionResult MyCars()
-        {
-            var venichles = context.Venichles.Include(x =>x.Brand).Include(x => x.Model).Where(x => x.OwnerId == 1).ToList();
 
-            return View(venichles);
+        [HttpPost]
+        public IActionResult AddCar(Auction model)
+        {
+            if (!ModelState.IsValid)
+            {
+                LoadAll();
+                return View(model);
+            }
+
+            context.Auctions.Add(model);
+            context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult MyVenichles()
+        {
+            var ven = context.Venichles.Include(v => v.Brand)
+                                       .Include(v => v.Model)
+                                       .Include(v => v.BodyStyle)
+                                       .Include(v => v.FuelType)
+                                       .Include(v => v.Transmission)
+                                       .Include(v => v.Owner)
+                                       .Include(v => v.Auction)
+                                       .Where(v => v.OwnerId == 1).ToList();
+
+            return View(ven);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var ven = context.Venichles.Find(id);
+            if (ven != null)
+            {
+                context.Venichles.Remove(ven);
+                context.SaveChanges();
+            }
+            else return NotFound();
+
+
+            return RedirectToAction("MyVenichles");
         }
 
     }

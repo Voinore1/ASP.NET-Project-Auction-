@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-3">
             <div class="container-fluid d-flex align-items-end">
-                <a class="navbar-brand mr-4 fw-bold fs-2 me-4 " asp-area="" asp-controller="Home">bids<span>&</span>cars</a>
+                <a class="navbar-brand mr-4 fw-bold fs-2 me-4 " asp-area="" asp-controller="Home" asp-action="Index">bids<span>&</span>cars</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 fs-5">
                         <li class="nav-item dropdown">
@@ -62,7 +62,7 @@
                                 <li><a class="dropdown-item nav-link" href="#">Profile</a></li>
                                 <li><a class="dropdown-item nav-link" href="#">Watch List</a></li>
                                 <li><a class="dropdown-item nav-link" href="#">Seller Dashboard</a></li>
-                                <li><a class="dropdown-item nav-link" asp-controller="Account" asp-action="MyCars">My venichle</a></li>
+                                <li><a class="dropdown-item nav-link" asp-controller="Account" asp-action="MyVenichles">My venichles</a></li>
                                 <li><a class="dropdown-item nav-link" href="#">Settings</a></li>
                                 <li><a class="dropdown-item nav-link" href="#">Sign out</a></li>
                             </ul>
@@ -73,7 +73,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container p-0">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

@@ -16,15 +16,30 @@ namespace WebApplication1.Controllers
             return View(aucs);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Auction(int id)
         {
-            return View();
+            var auc = context.Auctions
+                .Include(x => x.Venichle)
+                    .ThenInclude(v => v.BodyStyle)
+                .Include(x => x.Venichle)
+                    .ThenInclude(v => v.FuelType)
+                .Include(x => x.Venichle)
+                    .ThenInclude(v => v.Transmission)
+                .Include(x => x.Venichle)
+                    .ThenInclude(v => v.Brand)
+                .Include(x => x.Venichle)
+                    .ThenInclude(v => v.Model)
+                .Include(x => x.Venichle)
+                    .ThenInclude(v => v.Auction)
+                .Include(x => x.Venichle)
+                    .ThenInclude(v => v.Owner)
+                .Include(x => x.Bids)
+                .Include(x => x.Comments)
+                .FirstOrDefault(x => x.Id == id);
+
+            return View(auc);
         }
 
-        public IActionResult Auction()
-        {
-            return View();
-        }
 
     }
 }

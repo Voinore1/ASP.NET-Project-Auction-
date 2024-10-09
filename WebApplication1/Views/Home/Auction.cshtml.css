@@ -1,0 +1,16 @@
+﻿.thumbnail span {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    background-color: rgb(44, 44, 44, 0.72);
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+
+}
+
+
+
+
+

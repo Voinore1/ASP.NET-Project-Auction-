@@ -1,1 +1,70 @@
-﻿
+﻿@model Auction
+
+<div class="d-flex justify-content-between ">
+    <div class="d-flex flex-column w-75">
+        <h3 class="fw-bold fs-2 mb-0">@Model.Name</h3>
+        <h4 class="fs-5">@Model.MinDescription</h4>
+    </div>
+
+    <div class="d-flex align-items-center ">
+        <a class="btn fs-6"><i class="bi bi-star h-100"></i> Watch</a>
+        <a class="btn fs-6"><i class="bi bi-share"></i> Share</a>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row d-flex align-items-stretch">
+        <div class="col-md-8 d-flex align-items-stretch p-0" >
+            <img src="@Model.Venichle.MainPhotoURL" class="h-auto w-100 rounded object-fit-cover">
+        </div>
+        <div class="col-md-4 d-flex flex-column">
+            <div class="row flex-grow-1">
+                @for (int i = 0; i < Model.Venichle.ExteriorPhotosURLId.Take(4).Count(); i++)
+                {
+                    var photo = Model.Venichle.ExteriorPhotosURLId[i];
+                    <div class="col-6 mb-2 position-relative thumbnail exterior d-flex align-items-stretch">
+                        <img src="@photo" class="h-auto w-100 rounded object-fit-cover">
+                        @if (i == 0)
+                        {
+                            <span>Exterior (@Model.Venichle.ExteriorPhotosURLId.Count())</span>
+                        }
+                    </div>
+                }
+
+                @for (int i = 0; i < Model.Venichle.InteriorPhotosURLId.Take(4).Count(); i++)
+                {
+                    var photo = Model.Venichle.InteriorPhotosURLId[i];
+                    <div class="col-6 mb-2 position-relative thumbnail interior d-flex align-items-stretch">
+                        <img src="@photo" class="h-auto w-100 rounded object-fit-cover">
+                        @if (i == 0)
+                        {
+                            <span>Interior (@Model.Venichle.InteriorPhotosURLId.Count())</span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex fs-5">
+        <div class="col-md-8 d-flex justify-content-between align-content-center clock-js p-0 mt-3 sticky-top" data-timestamp="@(((DateTimeOffset)Model.TimeEnd.Date).ToUnixTimeSeconds())">
+            <div class="d-flex rounded-2 justify-content-between w-100 bg-dark text-muted p-2">
+                <span><i class="bi bi-clock"></i> Time left: <span class="countdown text-white fw-bold"></span></span>
+                <span><i class="bi bi-arrow-up"></i> High Bid <span class="text-white fw-bold">$@Model.CurrentPrice</span></span>
+                <span><i class="bi bi-hash"></i> Bids <span class="text-white fw-bold">@(Model.Bids != null ? Model.Bids.Count() : 0)</span></span>
+                <span><i class="bi bi-chat"></i> Comments <span class="text-white fw-bold">@(Model.Comments != null ? Model.Comments.Count() : 0)</span></span>
+            </div>
+
+            <button type="button" class="btn bg-success ms-3 me-5 px-4 fw-bold text-nowrap">Place bid</button>
+        </div>
+
+        <div class="col-md-4 fw-bold align-content-end fs-3">
+            Auctions ending soon
+        </div>
+        
+    </div>
+</div>
+
+
+
+

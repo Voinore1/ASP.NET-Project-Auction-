@@ -106,7 +106,6 @@ namespace Data
                     VIN = "1G1YY26U575100001",
                     ManufactureDate = 2007,
                     Odometr = 100_000,
-                    Seats = 2,
                     ExteriorColor = "Black",
                     IsModified = true,
                     HaveProblems = false,
@@ -125,7 +124,6 @@ namespace Data
                     VIN = "WAUZZZ8V7KA123456",
                     ManufactureDate = 2019,
                     Odometr = 20_000,
-                    Seats = 5,
                     ExteriorColor = "White",
                     IsModified = false,
                     HaveProblems = false,
@@ -136,7 +134,20 @@ namespace Data
                     BodyStyleId = 1,
                     FuelTypeId = 1,
                     TransmissionId = 2,
-                    OwnerId = 1
+                    OwnerId = 1,
+                    ExteriorPhotosURLId = new List<string> { 
+                        "https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
+                        "https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    InteriorPhotosURLId = new List<string> {
+                        "https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
+                        "https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    }
+
                 },
                 new Venichle
                 {
@@ -144,7 +155,6 @@ namespace Data
                     VIN = "WBA3A5C50DF123456",
                     ManufactureDate = 2013,
                     Odometr = 60_000,
-                    Seats = 5,
                     ExteriorColor = "Blue",
                     IsModified = false,
                     HaveProblems = false,
@@ -155,7 +165,19 @@ namespace Data
                     BodyStyleId = 1,
                     FuelTypeId = 1,
                     TransmissionId = 2,
-                    OwnerId = 1
+                    OwnerId = 1,
+                    ExteriorPhotosURLId = new List<string> {
+                        "https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
+                        "https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    InteriorPhotosURLId = new List<string> {
+                        "https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
+                        "https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    }
                 },
                 new Venichle
                 {
@@ -163,7 +185,6 @@ namespace Data
                     VIN = "1FTFW1EF1EK123456",
                     ManufactureDate = 2014,
                     Odometr = 70_000,
-                    Seats = 5,
                     ExteriorColor = "Silver",
                     IsModified = true,
                     HaveProblems = false,
@@ -174,7 +195,19 @@ namespace Data
                     BodyStyleId = 11,
                     FuelTypeId = 2,
                     TransmissionId = 2,
-                    OwnerId = 1
+                    OwnerId = 1,
+                    ExteriorPhotosURLId = new List<string> {
+                        "https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
+                        "https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    InteriorPhotosURLId = new List<string> {
+                        "https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
+                        "https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    }
                 },
                 new Venichle
                 {
@@ -182,7 +215,6 @@ namespace Data
                     VIN = "5YJ3E1EA7KF123456",
                     ManufactureDate = 2019,
                     Odometr = 20_000,
-                    Seats = 5,
                     ExteriorColor = "Black",
                     IsModified = false,
                     HaveProblems = false,
@@ -193,7 +225,19 @@ namespace Data
                     BodyStyleId = 1,
                     FuelTypeId = 3,
                     TransmissionId = 2,
-                    OwnerId = 1
+                    OwnerId = 1,
+                    ExteriorPhotosURLId = new List<string> {
+                        "https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
+                        "https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    },
+                    InteriorPhotosURLId = new List<string> {
+                        "https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D",
+                        "https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        "https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    }
                 }
             });
 

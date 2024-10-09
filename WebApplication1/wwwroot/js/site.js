@@ -18,7 +18,7 @@
 
             }
             else {
-                countdownElement.textContent = `{hours}:{minutes}:{}`;
+                countdownElement.textContent = `{hours}:{minutes}`;
             }
         } else {
             countdownElement.textContent = '';

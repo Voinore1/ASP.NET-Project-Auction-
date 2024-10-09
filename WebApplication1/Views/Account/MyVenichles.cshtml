@@ -1,0 +1,56 @@
+﻿@model List<Venichle>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Start</th>
+            <th scope="col">End</th>
+            <th scope="col">Price start</th>
+            <th scope="col">Price now</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <th class="img-cell" scope="row"><img src="@i.MainPhotoURL"/></th>
+                @if (i.Auction != null)
+                {
+                    <td>
+                        <span>@i.Model.Name</span>
+                        @if(i.Auction.IsSold) {
+                            <span class="badge rounded-pill bg-success">Sold</span>
+                        }
+                        else if (DateTime.Now < i.Auction.TimeEnd && DateTime.Now > i.Auction.TimeStart) {
+                            <span class="badge rounded-pill bg-info">On sale</span>
+                        }
+                        else {
+                            <span class="badge rounded-pill bg-secondary">Starting soon</span>
+                        }
+                    </td>
+                    <td>@i.Auction.TimeStart.ToUniversalTime().ToString()</td>
+                    <td>@i.Auction.TimeEnd.ToUniversalTime().ToString()</td>
+                    <td>$@i.Auction.StartPrice</td>
+                    <td>$@i.Auction.CurrentPrice</td>
+                }
+                else
+                {
+                    <td>@i.Model.Name</td>
+                    <td>Not in auction</td>
+                    <td>Not in auction</td>
+                    <td>Not in auction</td>
+                    <td>Not in auction</td>
+                }
+                <td>
+                    <a asp-action="Delete" asp-route-id="@i.Id" type="button" class="btn btn-outline-danger">
+                        <i class="bi bi-trash3"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

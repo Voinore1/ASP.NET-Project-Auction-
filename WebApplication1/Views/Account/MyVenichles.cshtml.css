@@ -1,0 +1,15 @@
+﻿
+.img-cell{
+    width: 80px;
+}
+.img-cell img:hover {
+    transform: scale(4);
+
+}
+
+.img-cell img{
+    width: 80px;
+    height: 50px;
+    transition: 0.2s;
+}
+

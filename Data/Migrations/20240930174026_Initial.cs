@@ -108,20 +108,25 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VIN = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ManufactureDate = table.Column<int>(type: "int", nullable: false),
+                    Odometr = table.Column<int>(type: "int", nullable: false),
+                    ExteriorColor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsModified = table.Column<bool>(type: "bit", nullable: false),
+                    HaveProblems = table.Column<bool>(type: "bit", nullable: false),
+                    Problems = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsHTMLProblemList = table.Column<bool>(type: "bit", nullable: false),
+                    IsHTMLDescription = table.Column<bool>(type: "bit", nullable: false),
+                    MainPhotoURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExteriorPhotosURLId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InteriorPhotosURLId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: false),
                     OwnerId = table.Column<int>(type: "int", nullable: false),
                     ModelId = table.Column<int>(type: "int", nullable: false),
                     AuctionId = table.Column<int>(type: "int", nullable: true),
-                    ManufactureDate = table.Column<int>(type: "int", nullable: false),
-                    Odometr = table.Column<int>(type: "int", nullable: false),
-                    FuelConsumption = table.Column<double>(type: "float", nullable: false),
-                    Seats = table.Column<int>(type: "int", nullable: false),
-                    ToHundred = table.Column<double>(type: "float", nullable: false),
-                    ExteriorColor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BodyStyleId = table.Column<int>(type: "int", nullable: false),
                     FuelTypeId = table.Column<int>(type: "int", nullable: false),
-                    TransmissionId = table.Column<int>(type: "int", nullable: false),
-                    PictureURLs = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TransmissionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -169,9 +174,9 @@ namespace Data.Migrations
                     TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MinDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartPrice = table.Column<int>(type: "int", nullable: false),
                     CurrentPrice = table.Column<int>(type: "int", nullable: false),
-                    Step = table.Column<int>(type: "int", nullable: false),
                     IsSold = table.Column<bool>(type: "bit", nullable: false),
                     CityNow = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -373,13 +378,26 @@ namespace Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Venichles",
-                columns: new[] { "Id", "AuctionId", "BodyStyleId", "BrandId", "ExteriorColor", "FuelConsumption", "FuelTypeId", "ManufactureDate", "ModelId", "Odometr", "OwnerId", "PictureURLs", "Seats", "ToHundred", "TransmissionId", "VIN" },
+                columns: new[] { "Id", "AuctionId", "BodyStyleId", "BrandId", "Description", "ExteriorColor", "ExteriorPhotosURLId", "FuelTypeId", "HaveProblems", "InteriorPhotosURLId", "IsHTMLDescription", "IsHTMLProblemList", "IsModified", "MainPhotoURL", "ManufactureDate", "ModelId", "Odometr", "OwnerId", "Problems", "TransmissionId", "VIN" },
                 values: new object[,]
                 {
-                    { 1, null, 1, 1, "Black", 6.5, 1, 2020, 1, 0, 1, null, 5, 8.4000000000000004, 2, "1" },
-                    { 2, null, 1, 2, "White", 7.5, 1, 2019, 11, 0, 1, null, 5, 7.4000000000000004, 2, "2" },
-                    { 3, null, 2, 3, "Red", 9.5, 1, 2018, 18, 0, 1, null, 2, 4.4000000000000004, 1, "3" },
-                    { 4, null, 2, 4, "Blue", 10.5, 1, 2017, 22, 0, 1, null, 2, 5.4000000000000004, 1, "4" }
+                    { 1, null, 2, 3, "Good car", "Black", null, 1, false, null, false, false, true, "https://images.unsplash.com/photo-1672151574300-b32db79a42db?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 2007, 18, 100000, 1, null, 2, "1G1YY26U575100001" },
+                    { 2, null, 1, 1, "Audi A3 in excellent condition", "White", null, 1, false, null, false, false, false, "https://images.unsplash.com/photo-1717711081688-985a7a3e6a9f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 2019, 1, 20000, 1, null, 2, "WAUZZZ8V7KA123456" },
+                    { 3, null, 1, 2, "BMW 3 Series, well maintained", "Blue", null, 1, false, null, false, false, false, "https://www.topgear.com/sites/default/files/2022/11/P90485000_highRes_bmw-330e-xdrive-tour.jpg", 2013, 11, 60000, 1, null, 2, "WBA3A5C50DF123456" },
+                    { 4, null, 11, 4, "Ford F-150, great for off-road", "Silver", null, 2, false, null, false, false, true, "https://i.infocar.ua/i/12/6467/1400x936.jpg", 2014, 22, 70000, 1, null, 2, "1FTFW1EF1EK123456" },
+                    { 5, null, 1, 10, "Tesla Model 3, electric car", "Black", null, 3, false, null, false, false, false, "https://tsk.ua/datacache/f/8/f/9/4/f8f948db809a2713f2790bb16426a365a26df356.jpeg", 2019, 24, 20000, 1, null, 2, "5YJ3E1EA7KF123456" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Auctions",
+                columns: new[] { "Id", "CityNow", "CurrentPrice", "IsSold", "MinDescription", "Name", "SellerId", "StartPrice", "TimeEnd", "TimeStart", "VenichleId" },
+                values: new object[,]
+                {
+                    { 1, "Kyiv", 20000, false, "500-hp V8, Rare DTM-Inspired CLK, Mostly Unmodified", "Chevrolet Corvette 2007", 1, 20000, new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1429), new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1377), 1 },
+                    { 2, "Kyiv", 30000, false, "~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified", "Audi A3 2019", 1, 30000, new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1437), new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1435), 2 },
+                    { 3, "Kyiv", 25000, false, "Twin-Turbo V8, Sport Package, Some Modifications", "BMW 3 Series 2013", 1, 25000, new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1442), new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1440), 3 },
+                    { 4, "Kyiv", 35000, false, "V10 Power, Rod Bearings Replaced, Mostly Unmodified", "Ford F-150 2014", 1, 35000, new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1448), new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1447), 4 },
+                    { 5, "Kyiv", 40000, false, "~37,000 Miles, Rare Coupe Model, 5-Speed Manual, Extensively Modified", "Tesla Model 3 2019", 1, 40000, new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1454), new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1452), 5 }
                 });
 
             migrationBuilder.CreateIndex(
