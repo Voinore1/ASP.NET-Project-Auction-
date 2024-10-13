@@ -1,8 +1,18 @@
 ﻿@model CreateVehichleModel
-
 <div class="centered">
-    <form class="row g-3" method="post" enctype="multipart/form-data" asp-action="AddCar">
+    <form class="row g-3" method="post" asp-action="EditVehicle">
         <h2>Car details</h2>
+        <div class="d-none">
+            <input asp-for="Id" type="number"/>
+            <input asp-for="MainPhotoURL" type="text"/>
+            <input asp-for="OwnerId" type="number"/>
+            <input asp-for="AuctionId" type="number"/>
+
+        </div>
+        <span asp-validation-for=Id class="form-text text-danger"></span>
+        <span asp-validation-for=MainPhotoURL class="form-text text-danger"></span>
+        <span asp-validation-for=OwnerId class="form-text text-danger"></span>
+        <span asp-validation-for=AuctionId class="form-text text-danger"></span>
         <div class="col-12">
             <label asp-for="VIN" class="form-label">VIN</label>
             <input asp-for="VIN" type="text" class="form-control" placeholder="WMWXM5C59ET932854">
@@ -129,24 +139,6 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <label asp-for="MainPhoto" class="form-label">Load the front foto</label>
-            <input asp-for="MainPhoto" type="file" class="form-control">
-            <span asp-validation-for=MainPhoto class="form-text text-danger"></span>
-        </div>
-
-        <div class="col-md-4">
-            <label asp-for="ExteriorPhotos"  class="form-label">Load exterior fotos</label>
-            <input asp-for="ExteriorPhotos" type="file" multiple class="form-control">
-            <span asp-validation-for=ExteriorPhotos class="form-text text-danger"></span>
-        </div>
-
-        <div class="col-md-4">
-            <label asp-for="InteriorPhotos" class="form-label">Load interior photos</label>
-            <input asp-for="InteriorPhotos" type="file" multiple class="form-control">
-            <span asp-validation-for=InteriorPhotos class="form-text text-danger"></span>
-        </div>
-
         <div class="accordion">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -185,11 +177,13 @@
                 </div>
             </div>
         </div>
+       
 
-        
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Add car</button>
+        <div class="col-md-6">
+            <a asp-action="Index" asp-controller="Home" class="w-100 rounded btn text-light bg-dark">Back</a>
+        </div>
+        <div class="col-md-6">
+            <button type="submit" class="w-100 rounded btn bg-success">Edit</button>
         </div>
     </form>
 </div>
-

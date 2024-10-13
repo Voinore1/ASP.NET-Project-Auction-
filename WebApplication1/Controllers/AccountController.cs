@@ -1,4 +1,4 @@
-﻿
+﻿using AutoMapper;
 using Data;
 using Data.Entities;
 using Data.Entities.VenichleInfo;
@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebApplication1.Models;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController(IMapper mapper, AuctionDBContext context, IFileService fileService) : Controller
     {
-        public AuctionDBContext context = new();
+        private readonly IFileService fileService = fileService;
+        private readonly AuctionDBContext context = context;
+        private readonly IMapper mapper = mapper;
 
         private void LoadBrands()
         {
@@ -30,6 +33,13 @@ namespace WebApplication1.Controllers
         {
             ViewBag.FuelTypes = new SelectList(context.FuelTypes.ToList(), "Id", "Name");
         }
+        private void LoadMyCarsAuctionsOff()
+        {
+            ViewBag.Vehichles = new SelectList(
+                context.Venichles.Include(v => v.Auction)
+                                 .Include(v => v.Model)
+                                 .Where(v => v.OwnerId == 1 && v.Auction == null).ToList(), "Id", "Model.Name");
+        }
         private void LoadAll() 
         {
             ViewBag.Colors = new SelectList(new string[] { "Red", "Blue", "Green", "Black", "White", "Yellow", "Orange", "Purple", "Pink", "Brown", "Grey", "Silver", "Gold", "Beige", "Other" });
@@ -38,25 +48,68 @@ namespace WebApplication1.Controllers
             LoadBodyStyles();
             LoadFuelTypes();
         }
+
+        [HttpGet]
+        public IActionResult GetModelsByBrand(int brandId)
+        {
+
+            var models = context.Models.Where(m => m.BrandId == brandId).ToList();
+
+            return Json(models);
+
+        }
+        [HttpGet]
+        public IActionResult GetVehicleDetails(int vehicleId)
+        {
+            var vehicle = context.Venichles.Include(x => x.Model)
+                                           .Include(x=>x.BodyStyle)
+                                           .Include(x => x.FuelType)
+                                           .Include(x => x.Transmission)
+                                           .Include(x => x.Brand)
+                                           .Where(x => x.Id == vehicleId)
+                                           .FirstOrDefault();
+
+            var entity = new 
+            {
+                Model = vehicle.Model.Name,
+                Brand = vehicle.Brand.Name,
+                ExteriorColor = vehicle.ExteriorColor,
+                Year = vehicle.ManufactureDate,
+                InteriorColor = vehicle.InteriorColor,
+                Odometr = vehicle.Odometr,
+                Vin = vehicle.VIN,
+                FuelType = vehicle.FuelType.Name,
+                BodyStyle = vehicle.BodyStyle.Style,
+                Transmission = vehicle.Transmission.Name,
+                ImageUrl = vehicle.MainPhotoURL
+            };
+
+            return Json(entity);
+        }
+
+
         [HttpGet]
         public IActionResult SellCar()
         {
-            LoadAll();
+            LoadMyCarsAuctionsOff();
 
             return View();
         }
 
-
         [HttpPost]
-        public IActionResult SellCar(Auction model)
+        public IActionResult SellCar(CreateAuctionModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model.TimeEnd <= model.TimeStart)
             {
-                LoadAll();
+                LoadMyCarsAuctionsOff();
                 return View(model);
             }
 
-            context.Auctions.Add(model);
+            model.CurrentPrice = model.StartPrice;
+
+            var auc = mapper.Map<Auction>(model);
+
+            context.Auctions.Add(auc);
             context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
@@ -72,7 +125,7 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost]
-        public IActionResult AddCar(Auction model)
+        public async Task<IActionResult> AddCar(CreateVehichleModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -80,13 +133,24 @@ namespace WebApplication1.Controllers
                 return View(model);
             }
 
-            context.Auctions.Add(model);
+            var ven = mapper.Map<Venichle>(model);
+            ven.OwnerId = 1;
+
+            Console.WriteLine(model.ExteriorPhotos);
+            if (model.MainPhoto != null)
+                ven.MainPhotoURL = await fileService.SaveImage(model.MainPhoto);
+            if(model.ExteriorPhotos != null)
+                ven.ExteriorPhotosURLId = await fileService.SaveImages(model.ExteriorPhotos.ToList());
+            if (model.InteriorPhotos != null)
+                ven.InteriorPhotosURLId = await fileService.SaveImages(model.InteriorPhotos.ToList());
+
+            context.Venichles.Add(ven);
             context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("MyVehichles", "Account");
         }
 
-        public IActionResult MyVenichles()
+        public IActionResult MyVehichles()
         {
             var ven = context.Venichles.Include(v => v.Brand)
                                        .Include(v => v.Model)
@@ -102,16 +166,91 @@ namespace WebApplication1.Controllers
 
         public IActionResult Delete(int id)
         {
-            var ven = context.Venichles.Find(id);
+            var ven = context.Venichles.Include(x=> x.Auction).FirstOrDefault(x => x.Id == id);
             if (ven != null)
             {
-                context.Venichles.Remove(ven);
-                context.SaveChanges();
+                if (ven.Auction != null)
+                {
+                    if (DateTime.Now.Ticks < ven.Auction.TimeStart.Ticks)
+                    {
+                        context.Auctions.Remove(ven.Auction);
+                        context.Venichles.Remove(ven);
+                    }
+                }
+                else
+                {
+                    context.Venichles.Remove(ven);
+                }
+                
+                
             }
-            else return NotFound();
+            
+            context.SaveChanges();
+            return RedirectToAction("MyVehichles", "Account");
+                        
+        }
 
+        [HttpGet]
+        public IActionResult EditVehicle(int id)
+        {
+            var ven = context.Venichles.Find(id);
 
-            return RedirectToAction("MyVenichles");
+            if (ven == null) return NotFound();
+
+            LoadAll();
+
+            var entity = mapper.Map<CreateVehichleModel>(ven);
+
+            return View(entity);
+        }
+
+        [HttpPost]
+        public IActionResult EditVehicle(CreateVehichleModel ven)
+        {
+            if (!ModelState.IsValid)
+            {
+                LoadAll();
+                return View(ven);
+            }
+
+            var entity = mapper.Map<Venichle>(ven);
+
+            context.Venichles.Update(entity);
+            context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult EditAuction(int id)
+        {
+            var ven = context.Venichles.Include(x => x.Auction).FirstOrDefault(x => x.Id == id);
+
+            if (ven == null) return NotFound();
+
+            LoadAll();
+
+            var entity = mapper.Map<CreateAuctionModel>(ven.Auction);
+
+            return View(entity);
+        }
+
+        [HttpPost]
+        public IActionResult EditAuction(CreateAuctionModel ven)
+        {
+            if (!ModelState.IsValid)
+            {
+                LoadAll();
+                return View(ven);
+            }
+
+            var entity = mapper.Map<Auction>(ven);
+            entity.CurrentPrice = entity.StartPrice;
+
+            context.Auctions.Update(entity);
+            context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
 
     }

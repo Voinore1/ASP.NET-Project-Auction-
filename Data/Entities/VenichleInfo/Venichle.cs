@@ -17,7 +17,7 @@
 
 
 
-        public string MainPhotoURL { get; set; }
+        public string MainPhotoURL { get; set; } = null!;
         public IList<string>? ExteriorPhotosURLId { get; set; }
         public IList<string>? InteriorPhotosURLId { get; set; }
 

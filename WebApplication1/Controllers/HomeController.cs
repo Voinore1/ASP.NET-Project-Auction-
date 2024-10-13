@@ -8,7 +8,13 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        public AuctionDBContext context = new();
+        public AuctionDBContext context;
+
+        public HomeController(AuctionDBContext context)
+        {
+            this.context = context;
+        }
+
         public IActionResult Index()
         {
             var aucs = context.Auctions.Include(x => x.Venichle).ToList();

@@ -16,7 +16,7 @@ namespace Data.Configs
             builder.HasMany(x => x.Models)
                    .WithOne(x => x.Brand)
                    .HasForeignKey(x => x.BrandId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
         }
 
     }

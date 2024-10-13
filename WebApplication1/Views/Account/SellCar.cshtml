@@ -1,138 +1,95 @@
-﻿@model Auction
+﻿@model CreateAuctionModel
 
 <div class="centered">
     <form class="row g-3" method="post" asp-action="SellCar">
+        <div class="col-md-12">
+            <label asp-for="VenichleId" class="form-label">Select your vehicle</label>
+            <select asp-for="VenichleId" asp-items="ViewBag.Vehichles" type="number" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+            <span asp-validation-for="VenichleId" class="form-text text-danger"></span>
+        </div>
+
         <h2>Car details</h2>
-        <div class="col-12">
-            <label asp-for="Venichle.VIN" class="form-label">VIN</label>
-            <input asp-for="Venichle.VIN" type="text" class="form-control" placeholder="WMWXM5C59ET932854">
-            <span asp-validation-for=Venichle.VIN class="form-text text-danger"></span>
+        <img class="w-100 p-0" src="" id="vehicleImage" />
+        <table class="table table-dark table-striped rounded fs-5">
+            <tr>
+                <td scope="col" class="text-secondary">Model:</td>
+                <td scope="col" id="model"></td>
+                <td scope="col" class="text-secondary">Brand:</td>
+                <td scope="col" id="brand"></td>
+            </tr>
+            <tr>
+                <td class ="text-secondary">Exterior color:</td>
+                <td id="exteriorColor"></td>
+                <td class="text-secondary">Year:</td>
+                <td id="year"></td>
+            </tr>
+            <tr>
+                <td class="text-secondary">Interior color:</td>
+                <td id="interiorColor"></td>
+                <td class="text-secondary">Odometr:</td>
+                <td id="odometr"></td>
+            </tr>
+            <tr>
+                <td class="text-secondary">VIN:</td>
+                <td id="vin"></td>
+                <td class="text-secondary">Fuel type:</td>
+                <td id="fuelType"></td>
+            </tr>
+            <tr>
+                <td class="text-secondary">Body style:</td>
+                <td id="bodyStyle"></td>
+                <td class="text-secondary">Transmission:</td>
+                <td id="transmission"></td>
+            </tr>
+        </table>
+
+        <a asp-controller="Account" asp-action="EditCar" asp-route-id="VenichleId"></a>
+
+        <h2>Auction details</h2>
+
+        <div class="col-md-6">
+            <label asp-for="TimeStart">Auction Start</label>
+            <input asp-for="TimeStart" type="datetime-local"/>
+            <span asp-validation-for=TimeStart class="form-text text-danger"></span>
         </div>
 
-        <div class="col-md-4">
-            <label asp-for="Venichle.ManufactureDate" class="form-label">Year</label>
-            <select asp-for="Venichle.ManufactureDate" type="number" class="form-control">
-                <option disabled selected>Choose...</option>
-                @for (int i = 0; i < 50; i++)
-                {
-                    <option>@(DateTime.Now.Year - i)</option>
-                }
-            </select>
-            <span asp-validation-for=Venichle.ManufactureDate class="form-text text-danger"></span>
+        <div class="col-md-6">
+            <label asp-for="TimeEnd">Auction End</label>
+            <input asp-for="TimeEnd" type="datetime-local"/>
+            <span asp-validation-for=TimeEnd class="form-text text-danger"></span>
         </div>
 
-        <div class="col-md-4">
-            <label asp-for="Venichle.BrandId" class="form-label">Brand</label>
-            <select asp-for="Venichle.BrandId" asp-items="ViewBag.Brands" class="form-control">
-                <option disabled selected>Choose...</option>
-            </select>
-            <span asp-validation-for=Venichle.BrandId class="form-text text-danger"></span>
+        <div class ="col-md-6">
+            <label asp-for="StartPrice" class="form-label">Start price</label>
+            <input asp-for="StartPrice" type="number" class="form-control" placeholder="10000">
+            <span asp-validation-for=StartPrice class="form-text text-danger"></span>
         </div>
 
-        <div class="col-md-4">
-            <label asp-for="Venichle.Model.Name" class="form-label">Model</label>
-            <input asp-for="Venichle.Model.Name" type="text" class="form-control" id="inputModel">
-            <span asp-validation-for=Venichle.Model.Name class="form-text text-danger"></span>
-        </div>
-
-        <div class="col-md-4">
-            <label asp-for="Venichle.ExteriorColor" class="form-label">Color</label>
-            <select asp-for="Venichle.ExteriorColor" asp-items="ViewBag.Colors" class="form-control">
-                <option disabled selected>Choose...</option>
-            </select>
-            <span asp-validation-for=Venichle.ExteriorColor class="form-text text-danger"></span>
-        </div>
-
-        <div class="col-md-4">
-            <label asp-for="Venichle.BodyStyleId" class="form-label">Body style</label>
-            <select asp-for="Venichle.BodyStyleId" asp-items="ViewBag.BodyStyles" class="form-control">
-                <option disabled selected>Choose...</option>
-            </select>
-            <span asp-validation-for=Venichle.BodyStyleId class="form-text text-danger"></span>
-        </div>
-
-        <div class="col-md-4">
-            <label asp-for="Venichle.FuelTypeId" class="form-label">Fuel type</label>
-            <select asp-for="Venichle.FuelTypeId" asp-items="ViewBag.FuelTypes" class="form-control">
-                <option disabled selected>Choose...</option>
-            </select>
-            <span asp-validation-for=Venichle.FuelTypeId class="form-text text-danger"></span>
-        </div>
-
-        <div class="col-md-4">
-            <label asp-for="CityNow" class="form-label">Country, City</label>
-            <input asp-for="CityNow" type="text" class="form-control" placeholder="Ukraine, Rivne">
+        <div class="col-md-6">
+            <label asp-for="CityNow" class="form-label">City now</label>
+            <input asp-for="CityNow" type="text" class="form-control">
             <span asp-validation-for=CityNow class="form-text text-danger"></span>
         </div>
 
-        <div class="col-md-4">
-            <label asp-for="Venichle.TransmissionId" class="form-label">Transmission</label>
-            <select asp-for="Venichle.TransmissionId" asp-items="ViewBag.Transmissions" class="form-control">
-                <option disabled selected>Choose...</option>
-            </select>
-            <span asp-validation-for=Venichle.TransmissionId class="form-text text-danger"></span>
-        </div>
-
-        <div class="col-md-4">
-            <label asp-for="Venichle.Odometr" class="form-label">Odometr(in km)</label>
-            <input asp-for="Venichle.Odometr" step="100" type="number" class="form-control" placeholder="100000">
-            <span asp-validation-for=Venichle.Odometr class="form-text text-danger"></span>
-        </div>
-
-        <div class="btn-group col-md-12" role="group">
-            <input asp-for="Venichle.IsModified" type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-            <label class="btn btn-outline-dark" for="btncheck1">Modified</label>
-
-
-            <input asp-for="Venichle.HaveProblems" type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-            <label class="btn btn-outline-dark" for="btncheck2">Have problems</label>
-
+        <div class="col-md-12">
+            <label asp-for="Name" class="form-label">Front name</label>
+            <input asp-for="Name" type="text" class="form-control" placeholder="BMW 3 Series 2013">
+            <span asp-validation-for=Name class="form-text text-danger"></span>
         </div>
 
         <div class="col-md-12">
-            <label asp-for="Venichle.Description" class="form-label">Description (Can be HTML code)</label>
-            <textarea asp-for="Venichle.Description" class="form-control" rows="3" placeholder=""></textarea>
-            <span asp-validation-for=Venichle.Description class="form-text text-danger"></span>
+            <label asp-for="MinDescription" class="form-label">Min. description</label>
+            <textarea asp-for="MinDescription" class="form-control" rows="3" placeholder="~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified"></textarea>
+        </div>
+              
+        <div class="col-md-6">
+            <a asp-action="Index" asp-controller="Home" type="submit" class="w-100 rounded btn text-light bg-dark">Back</a>
         </div>
 
-        <div class="col-md-12">
-            <div class="form-check">
-                <input asp-for="Venichle.IsHTMLDescription" class="form-check-input" type="checkbox" id="gridCheck">
-                <span asp-validation-for=Venichle.IsHTMLDescription class="form-text text-danger"></span>
-                <label asp-for="Venichle.IsHTMLDescription" class="form-check-label" for="gridCheck">
-                    HTML code
-                </label>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <label asp-for="Venichle.Problems" class="form-label">List of problems (Can be HTML code)</label>
-            <textarea asp-for="Venichle.Problems" class="form-control" rows="3" placeholder=""></textarea>
-            <span asp-validation-for=Venichle.Problems class="form-text text-danger"></span>
-        </div>  
-
-        <div class="col-md-12">
-            <div class="form-check">
-                <input asp-for="Venichle.IsHTMLProblemList" class="form-check-input" type="checkbox" id="gridCheck1">
-                <span asp-validation-for=Venichle.IsHTMLProblemList class="form-text text-danger"></span>
-                <label asp-for="Venichle.IsHTMLProblemList" class="form-check-label" for="gridCheck1">
-                    HTML code
-                </label>
-            </div>
-        </div>
-
-
-        <h2>Auction details</h2>
-        <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Check me out
-                </label>
-            </div>
-        </div>  
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Sign in</button>
+        <div class="col-md-6">
+            <button type="submit" class="w-100 rounded btn bg-success">Put on sale</button>
         </div>
     </form>
 </div>

@@ -9,8 +9,8 @@ namespace Data
 {
     public class AuctionDBContext : DbContext
     {
-        public AuctionDBContext() : base() {}
-
+        public AuctionDBContext(DbContextOptions options) : base() {}
+        public AuctionDBContext() {}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

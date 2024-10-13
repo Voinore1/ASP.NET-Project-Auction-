@@ -16,22 +16,22 @@ namespace Data.Configs
             builder.HasOne(x => x.BodyStyle)
                    .WithMany(x => x.Venichles)
                    .HasForeignKey(x => x.BodyStyleId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.FuelType)
                    .WithMany(x => x.Venichles)
                    .HasForeignKey(x => x.FuelTypeId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Transmission)
                    .WithMany(x => x.Venichles)
                    .HasForeignKey(x => x.TransmissionId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Brand)
                    .WithMany(x => x.Venichles)
                    .HasForeignKey(x => x.BrandId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
 
 
             builder.HasOne(x => x.Model)

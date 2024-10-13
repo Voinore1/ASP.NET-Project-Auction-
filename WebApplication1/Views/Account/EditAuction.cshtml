@@ -1,0 +1,52 @@
+﻿@model CreateAuctionModel
+<div class="centered">
+    <form class="row g-3" method="post" asp-action="EditAuction">
+        <h2>Auction details</h2>
+
+        <input asp-for="Id" type="hidden"/>
+        <input asp-for="VenichleId" type="hidden" />
+
+        <div class="col-md-6">
+            <label asp-for="TimeStart">Auction Start</label>
+            <input asp-for="TimeStart" type="datetime-local" />
+            <span asp-validation-for=TimeStart class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="TimeEnd">Auction End</label>
+            <input asp-for="TimeEnd" type="datetime-local" />
+            <span asp-validation-for=TimeEnd class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="StartPrice" class="form-label">Start price</label>
+            <input asp-for="StartPrice" type="number" class="form-control" placeholder="10000">
+            <span asp-validation-for=StartPrice class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="CityNow" class="form-label">City now</label>
+            <input asp-for="CityNow" type="text" class="form-control">
+            <span asp-validation-for=CityNow class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="Name" class="form-label">Front name</label>
+            <input asp-for="Name" type="text" class="form-control" placeholder="BMW 3 Series 2013">
+            <span asp-validation-for=Name class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="MinDescription" class="form-label">Min. description</label>
+            <textarea asp-for="MinDescription" class="form-control" rows="3" placeholder="~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified"></textarea>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-action="Index" asp-controller="Home" type="submit" class="w-100 rounded btn text-light bg-dark">Back</a>
+        </div>
+
+        <div class="col-md-6">
+            <button type="submit" class="w-100 rounded btn bg-success">Edit</button>
+        </div>
+    </form>
+</div>

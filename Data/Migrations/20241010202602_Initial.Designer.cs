@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AuctionDBContext))]
-    [Migration("20241001172353_2")]
-    partial class _2
+    [Migration("20241010202602_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,8 +101,8 @@ namespace Data.Migrations
                             Name = "Chevrolet Corvette 2007",
                             SellerId = 1,
                             StartPrice = 20000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6576),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6522),
+                            TimeEnd = new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3818),
+                            TimeStart = new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3763),
                             VenichleId = 1
                         },
                         new
@@ -115,8 +115,8 @@ namespace Data.Migrations
                             Name = "Audi A3 2019",
                             SellerId = 1,
                             StartPrice = 30000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6584),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6582),
+                            TimeEnd = new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3827),
+                            TimeStart = new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3825),
                             VenichleId = 2
                         },
                         new
@@ -129,8 +129,8 @@ namespace Data.Migrations
                             Name = "BMW 3 Series 2013",
                             SellerId = 1,
                             StartPrice = 25000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6590),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6588),
+                            TimeEnd = new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3832),
+                            TimeStart = new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3831),
                             VenichleId = 3
                         },
                         new
@@ -143,8 +143,8 @@ namespace Data.Migrations
                             Name = "Ford F-150 2014",
                             SellerId = 1,
                             StartPrice = 35000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6596),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6594),
+                            TimeEnd = new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3838),
+                            TimeStart = new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3836),
                             VenichleId = 4
                         },
                         new
@@ -157,8 +157,8 @@ namespace Data.Migrations
                             Name = "Tesla Model 3 2019",
                             SellerId = 1,
                             StartPrice = 40000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6601),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6599),
+                            TimeEnd = new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3843),
+                            TimeStart = new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3841),
                             VenichleId = 5
                         });
                 });
@@ -929,13 +929,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "Seller")
                         .WithMany("Auctions")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Venichle", "Venichle")
                         .WithOne("Auction")
                         .HasForeignKey("Data.Entities.Auction", "VenichleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Seller");
@@ -954,7 +954,7 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Bids")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -967,13 +967,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.Auction", "Auction")
                         .WithMany("Comments")
                         .HasForeignKey("AuctionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -986,7 +986,7 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.VenichleInfo.Brand", "Brand")
                         .WithMany("Models")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Brand");
@@ -997,37 +997,37 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.VenichleInfo.BodyStyle", "BodyStyle")
                         .WithMany("Venichles")
                         .HasForeignKey("BodyStyleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Brand", "Brand")
                         .WithMany("Venichles")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.FuelType", "FuelType")
                         .WithMany("Venichles")
                         .HasForeignKey("FuelTypeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Model", "Model")
                         .WithMany("Venichles")
                         .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.User", "Owner")
                         .WithMany("Venichles")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Transmission", "Transmission")
                         .WithMany("Venichles")
                         .HasForeignKey("TransmissionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("BodyStyle");

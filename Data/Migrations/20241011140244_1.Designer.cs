@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AuctionDBContext))]
-    [Migration("20240930174026_Initial")]
-    partial class Initial
+    [Migration("20241011140244_1")]
+    partial class _1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,7 +78,7 @@ namespace Data.Migrations
                     b.Property<DateTime>("TimeStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VenichleId")
+                    b.Property<int?>("VenichleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -86,7 +86,8 @@ namespace Data.Migrations
                     b.HasIndex("SellerId");
 
                     b.HasIndex("VenichleId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[VenichleId] IS NOT NULL");
 
                     b.ToTable("Auctions");
 
@@ -101,8 +102,8 @@ namespace Data.Migrations
                             Name = "Chevrolet Corvette 2007",
                             SellerId = 1,
                             StartPrice = 20000,
-                            TimeEnd = new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1429),
-                            TimeStart = new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1377),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9691),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9635),
                             VenichleId = 1
                         },
                         new
@@ -115,8 +116,8 @@ namespace Data.Migrations
                             Name = "Audi A3 2019",
                             SellerId = 1,
                             StartPrice = 30000,
-                            TimeEnd = new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1437),
-                            TimeStart = new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1435),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9701),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9699),
                             VenichleId = 2
                         },
                         new
@@ -129,8 +130,8 @@ namespace Data.Migrations
                             Name = "BMW 3 Series 2013",
                             SellerId = 1,
                             StartPrice = 25000,
-                            TimeEnd = new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1442),
-                            TimeStart = new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1440),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9706),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9704),
                             VenichleId = 3
                         },
                         new
@@ -143,8 +144,8 @@ namespace Data.Migrations
                             Name = "Ford F-150 2014",
                             SellerId = 1,
                             StartPrice = 35000,
-                            TimeEnd = new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1448),
-                            TimeStart = new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1447),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9711),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9709),
                             VenichleId = 4
                         },
                         new
@@ -157,8 +158,8 @@ namespace Data.Migrations
                             Name = "Tesla Model 3 2019",
                             SellerId = 1,
                             StartPrice = 40000,
-                            TimeEnd = new DateTime(2024, 10, 7, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1454),
-                            TimeStart = new DateTime(2024, 9, 30, 20, 40, 26, 149, DateTimeKind.Local).AddTicks(1452),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9716),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9715),
                             VenichleId = 5
                         });
                 });
@@ -735,6 +736,10 @@ namespace Data.Migrations
                     b.Property<bool>("HaveProblems")
                         .HasColumnType("bit");
 
+                    b.Property<string>("InteriorColor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("InteriorPhotosURLId")
                         .HasColumnType("nvarchar(max)");
 
@@ -799,6 +804,7 @@ namespace Data.Migrations
                             ExteriorColor = "Black",
                             FuelTypeId = 1,
                             HaveProblems = false,
+                            InteriorColor = "Black",
                             IsHTMLDescription = false,
                             IsHTMLProblemList = false,
                             IsModified = true,
@@ -817,8 +823,11 @@ namespace Data.Migrations
                             BrandId = 1,
                             Description = "Audi A3 in excellent condition",
                             ExteriorColor = "White",
+                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             FuelTypeId = 1,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             IsHTMLDescription = false,
                             IsHTMLProblemList = false,
                             IsModified = false,
@@ -837,8 +846,11 @@ namespace Data.Migrations
                             BrandId = 2,
                             Description = "BMW 3 Series, well maintained",
                             ExteriorColor = "Blue",
+                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             FuelTypeId = 1,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             IsHTMLDescription = false,
                             IsHTMLProblemList = false,
                             IsModified = false,
@@ -857,8 +869,11 @@ namespace Data.Migrations
                             BrandId = 4,
                             Description = "Ford F-150, great for off-road",
                             ExteriorColor = "Silver",
+                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             FuelTypeId = 2,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             IsHTMLDescription = false,
                             IsHTMLProblemList = false,
                             IsModified = true,
@@ -877,8 +892,11 @@ namespace Data.Migrations
                             BrandId = 10,
                             Description = "Tesla Model 3, electric car",
                             ExteriorColor = "Black",
+                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             FuelTypeId = 3,
                             HaveProblems = false,
+                            InteriorColor = "Black",
+                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
                             IsHTMLDescription = false,
                             IsHTMLProblemList = false,
                             IsModified = false,
@@ -912,14 +930,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "Seller")
                         .WithMany("Auctions")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Venichle", "Venichle")
                         .WithOne("Auction")
                         .HasForeignKey("Data.Entities.Auction", "VenichleId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Seller");
 
@@ -937,7 +954,7 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Bids")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -950,13 +967,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.Auction", "Auction")
                         .WithMany("Comments")
                         .HasForeignKey("AuctionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -969,7 +986,7 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.VenichleInfo.Brand", "Brand")
                         .WithMany("Models")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Brand");
@@ -980,19 +997,19 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.VenichleInfo.BodyStyle", "BodyStyle")
                         .WithMany("Venichles")
                         .HasForeignKey("BodyStyleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Brand", "Brand")
                         .WithMany("Venichles")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.FuelType", "FuelType")
                         .WithMany("Venichles")
                         .HasForeignKey("FuelTypeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Model", "Model")
@@ -1004,13 +1021,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "Owner")
                         .WithMany("Venichles")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Transmission", "Transmission")
                         .WithMany("Venichles")
                         .HasForeignKey("TransmissionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("BodyStyle");

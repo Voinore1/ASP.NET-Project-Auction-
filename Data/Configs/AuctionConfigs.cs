@@ -17,12 +17,12 @@ namespace Data.Configs
             builder.HasOne(x => x.Seller)
                 .WithMany(x => x.Auctions)
                 .HasForeignKey(x => x.SellerId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Venichle)
                 .WithOne(x => x.Auction)
                 .HasForeignKey<Auction>(x => x.VenichleId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(x => x.Viewers)
                    .WithMany(x => x.WatchList);
@@ -30,7 +30,7 @@ namespace Data.Configs
             builder.HasMany(x => x.Comments)
                    .WithOne(x => x.Auction)
                    .HasForeignKey(x => x.AuctionId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.Bids)
                    .WithOne(x => x.Auction)

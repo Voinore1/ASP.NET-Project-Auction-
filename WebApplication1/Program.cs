@@ -1,7 +1,21 @@
+using Data;
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.MapperProfiles;
+using WebApplication1.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AuctionDBContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LoaclDb"));
+});
+
+builder.Services.AddScoped<IFileService, FileService>();
+
+builder.Services.AddAutoMapper(typeof(AppProfile));
 
 var app = builder.Build();
 
@@ -15,7 +29,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+    
 app.UseRouting();
 
 app.UseAuthorization();

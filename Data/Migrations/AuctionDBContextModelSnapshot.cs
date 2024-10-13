@@ -34,7 +34,7 @@ namespace Data.Migrations
 
                     b.HasIndex("WatchListId");
 
-                    b.ToTable("AuctionUser");
+                    b.ToTable("AuctionUser", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Auction", b =>
@@ -75,7 +75,7 @@ namespace Data.Migrations
                     b.Property<DateTime>("TimeStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VenichleId")
+                    b.Property<int?>("VenichleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -83,9 +83,10 @@ namespace Data.Migrations
                     b.HasIndex("SellerId");
 
                     b.HasIndex("VenichleId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[VenichleId] IS NOT NULL");
 
-                    b.ToTable("Auctions");
+                    b.ToTable("Auctions", (string)null);
 
                     b.HasData(
                         new
@@ -98,8 +99,8 @@ namespace Data.Migrations
                             Name = "Chevrolet Corvette 2007",
                             SellerId = 1,
                             StartPrice = 20000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6576),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6522),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9691),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9635),
                             VenichleId = 1
                         },
                         new
@@ -112,8 +113,8 @@ namespace Data.Migrations
                             Name = "Audi A3 2019",
                             SellerId = 1,
                             StartPrice = 30000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6584),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6582),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9701),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9699),
                             VenichleId = 2
                         },
                         new
@@ -126,8 +127,8 @@ namespace Data.Migrations
                             Name = "BMW 3 Series 2013",
                             SellerId = 1,
                             StartPrice = 25000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6590),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6588),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9706),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9704),
                             VenichleId = 3
                         },
                         new
@@ -140,8 +141,8 @@ namespace Data.Migrations
                             Name = "Ford F-150 2014",
                             SellerId = 1,
                             StartPrice = 35000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6596),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6594),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9711),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9709),
                             VenichleId = 4
                         },
                         new
@@ -154,8 +155,8 @@ namespace Data.Migrations
                             Name = "Tesla Model 3 2019",
                             SellerId = 1,
                             StartPrice = 40000,
-                            TimeEnd = new DateTime(2024, 10, 8, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6601),
-                            TimeStart = new DateTime(2024, 10, 1, 20, 23, 52, 811, DateTimeKind.Local).AddTicks(6599),
+                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9716),
+                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9715),
                             VenichleId = 5
                         });
                 });
@@ -186,7 +187,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bid");
+                    b.ToTable("Bid", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Comment", b =>
@@ -225,7 +226,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.User", b =>
@@ -256,7 +257,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -284,7 +285,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BodyStyles");
+                    b.ToTable("BodyStyles", (string)null);
 
                     b.HasData(
                         new
@@ -378,7 +379,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
 
                     b.HasData(
                         new
@@ -457,7 +458,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FuelTypes");
+                    b.ToTable("FuelTypes", (string)null);
 
                     b.HasData(
                         new
@@ -511,7 +512,7 @@ namespace Data.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Models");
+                    b.ToTable("Models", (string)null);
 
                     b.HasData(
                         new
@@ -674,7 +675,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transmissions");
+                    b.ToTable("Transmissions", (string)null);
 
                     b.HasData(
                         new
@@ -788,7 +789,7 @@ namespace Data.Migrations
 
                     b.HasIndex("TransmissionId");
 
-                    b.ToTable("Venichles");
+                    b.ToTable("Venichles", (string)null);
 
                     b.HasData(
                         new
@@ -926,14 +927,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "Seller")
                         .WithMany("Auctions")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Venichle", "Venichle")
                         .WithOne("Auction")
                         .HasForeignKey("Data.Entities.Auction", "VenichleId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Seller");
 
@@ -951,7 +951,7 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Bids")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -964,13 +964,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.Auction", "Auction")
                         .WithMany("Comments")
                         .HasForeignKey("AuctionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -983,7 +983,7 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.VenichleInfo.Brand", "Brand")
                         .WithMany("Models")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Brand");
@@ -994,19 +994,19 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.VenichleInfo.BodyStyle", "BodyStyle")
                         .WithMany("Venichles")
                         .HasForeignKey("BodyStyleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Brand", "Brand")
                         .WithMany("Venichles")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.FuelType", "FuelType")
                         .WithMany("Venichles")
                         .HasForeignKey("FuelTypeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Model", "Model")
@@ -1018,13 +1018,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "Owner")
                         .WithMany("Venichles")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.VenichleInfo.Transmission", "Transmission")
                         .WithMany("Venichles")
                         .HasForeignKey("TransmissionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("BodyStyle");

@@ -16,12 +16,12 @@ namespace Data.Configs
             builder.HasMany(x => x.Comments)
                    .WithOne(x => x.User)
                    .HasForeignKey(x => x.UserId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.Auctions)
                    .WithOne(x => x.Seller)
                    .HasForeignKey(x => x.SellerId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Restrict);  
 
             builder.HasMany(x => x.WatchList)
                    .WithMany(x => x.Viewers);
@@ -29,12 +29,12 @@ namespace Data.Configs
             builder.HasMany(x => x.Venichles)
                    .WithOne(x => x.Owner)
                    .HasForeignKey(x => x.OwnerId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(x => x.Bids)
                    .WithOne(x => x.User)
                    .HasForeignKey(x => x.UserId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Cascade);
 
 
         }
