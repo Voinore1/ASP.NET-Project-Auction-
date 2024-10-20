@@ -104,7 +104,7 @@
             </div>
             
 
-            <h4 class="fw-bold my-3">@Model.Name</h4>
+            <h2 class="fw-bold my-3">@Model.Name</h2>
             <div class="d-flex justify-content-between px-4">
                 <div>
                     <div>
@@ -115,19 +115,21 @@
                         <span class="fw-bold fntsz">$@Model.CurrentPrice</span>
                     </div>
                 </div>
-                <div class="d-flex flex-column">
-                    <div class="d-flex">
-                        <span class="fw-bold">Seller</span>
-                        <span>@Model.Seller.UserName</span>
-                    </div>
-                    <div class="d-flex">
-                        <span class="fw-bold">Ending</span>
-                        <span>@Model.TimeEnd.ToLocalTime()</span>
-                    </div>
-                    <div>
-                        <span class="fw-bold">Bids</span>
-                        <span>@Model.Bids?.Count()</span>
-                    </div>
+                <div class="container w-50">
+                    <table class="table">
+                        <tr>
+                            <th class="fw-bold">Seller</th>
+                            <th class="fw-normal"><i class="bi bi-person-circle"></i> @Model.Seller.UserName</th>
+                        </tr>
+                        <tr>
+                            <th class="fw-bold">Ending</th>
+                            <th class="fw-normal"><i class="bi bi-calendar4"></i> @Model.TimeEnd.ToString("MMM d, yyyy, hh:mm, tt")</th>
+                        </tr>
+                        <tr>
+                            <th class="fw-bold">Bids</th>
+                            <th class="fw-normal"><i class="bi bi-hash"></i>@Model.Bids?.Count()</th>
+                        </tr>
+                    </table>
                 </div>
             </div>
                 
