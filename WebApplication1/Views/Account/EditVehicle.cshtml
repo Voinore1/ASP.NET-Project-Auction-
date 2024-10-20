@@ -1,18 +1,14 @@
-﻿@model CreateVehichleModel
-<div class="centered">
-    <form class="row g-3" method="post" asp-action="EditVehicle">
-        <h2>Car details</h2>
-        <div class="d-none">
-            <input asp-for="Id" type="number"/>
-            <input asp-for="MainPhotoURL" type="text"/>
-            <input asp-for="OwnerId" type="number"/>
-            <input asp-for="AuctionId" type="number"/>
+﻿@model EditCarModel
 
-        </div>
-        <span asp-validation-for=Id class="form-text text-danger"></span>
-        <span asp-validation-for=MainPhotoURL class="form-text text-danger"></span>
-        <span asp-validation-for=OwnerId class="form-text text-danger"></span>
-        <span asp-validation-for=AuctionId class="form-text text-danger"></span>
+<div class="centered">
+    <form class="row g-3" method="post" enctype="multipart/form-data" asp-action="EditVehicle">
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="AuctionId" type="hidden"/>
+        <input asp-for="MainPhotoURl" type="hidden" />
+        <input asp-for="ExteriorPhotosURLId" type="hidden" />
+        <input asp-for="InteriorPhotosURLId" type="hidden" />
+
+        <h2>Car details</h2>
         <div class="col-12">
             <label asp-for="VIN" class="form-label">VIN</label>
             <input asp-for="VIN" type="text" class="form-control" placeholder="WMWXM5C59ET932854">
@@ -139,49 +135,65 @@
             </div>
         </div>
 
-        <div class="accordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Accordion Item #1
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Accordion Item #2
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Accordion Item #3
-                    </button>
-                </h2>
-                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-4">
+            <label asp-for="MainPhoto" class="form-label">Load the front foto</label>
+            <input asp-for="MainPhoto" type="file" class="form-control">
+            <span asp-validation-for=MainPhoto class="form-text text-danger"></span>
         </div>
-       
+
+        <div class="col-md-4">
+            <label asp-for="ExteriorPhotos" class="form-label">Load exterior fotos</label>
+            <input asp-for="ExteriorPhotos" type="file" multiple class="form-control">
+            <span asp-validation-for=ExteriorPhotos class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="InteriorPhotos" class="form-label">Load interior photos</label>
+            <input asp-for="InteriorPhotos" type="file" multiple class="form-control">
+            <span asp-validation-for=InteriorPhotos class="form-text text-danger"></span>
+        </div>
+
+        <h2>Auction details</h2>
 
         <div class="col-md-6">
-            <a asp-action="Index" asp-controller="Home" class="w-100 rounded btn text-light bg-dark">Back</a>
+            <label asp-for="AuctionTimeStart">Auction Start</label>
+            <input asp-for="AuctionTimeStart" type="datetime-local" />
+            <span asp-validation-for=AuctionTimeStart class="form-text text-danger"></span>
         </div>
+
+        <div class="col-md-6">
+            <label asp-for="AuctionTimeEnd">Auction End</label>
+            <input asp-for="AuctionTimeEnd" type="datetime-local" />
+            <span asp-validation-for=AuctionTimeEnd class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="AuctionStartPrice" class="form-label">Start price</label>
+            <input asp-for="AuctionStartPrice" type="number" class="form-control" placeholder="10000">
+            <span asp-validation-for=AuctionStartPrice class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="AuctionCityNow" class="form-label">City now</label>
+            <input asp-for="AuctionCityNow" type="text" class="form-control">
+            <span asp-validation-for=AuctionCityNow class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="AuctionName" class="form-label">Front name</label>
+            <input asp-for="AuctionName" type="text" class="form-control" placeholder="BMW 3 Series 2013">
+            <span asp-validation-for=AuctionName class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="AuctionMinDescription" class="form-label">Min. description</label>
+            <textarea asp-for="AuctionMinDescription" class="form-control" rows="3" placeholder="~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified"></textarea>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-action="Index" asp-controller="Home" type="submit" class="w-100 rounded btn text-light bg-dark">Back</a>
+        </div>
+
         <div class="col-md-6">
             <button type="submit" class="w-100 rounded btn bg-success">Edit</button>
         </div>

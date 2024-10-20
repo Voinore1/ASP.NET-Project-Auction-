@@ -43,31 +43,6 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-    $('#VenichleId').on('change', function () {
-        console.log('change');
-        var vehicleId = $(this).val();
-        $.ajax({
-            type: 'GET',
-            url: '/Account/GetVehicleDetails',
-            data: { vehicleId: vehicleId },
-            success: function (data) {
-                $('#model').text(data.model);
-                $('#brand').text(data.brand);
-                $('#exteriorColor').text(data.exteriorColor);
-                $('#year').text(data.year);
-                $('#interiorColor').text(data.interiorColor);
-                $('#odometr').text(data.odometr);
-                $('#vin').text(data.vin);
-                $('#fuelType').text(data.fuelType);
-                $('#bodyStyle').text(data.bodyStyle);
-                $('#transmission').text(data.transmission);
-                $('#vehicleImage').attr('src', data.imageUrl);
-            }
-        });
-    });
-});
-
 
 setInterval(updateCountdowns, 1000);
 

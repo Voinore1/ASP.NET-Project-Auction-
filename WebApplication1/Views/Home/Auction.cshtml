@@ -2,8 +2,8 @@
 
 <div class="d-flex justify-content-between ">
     <div class="d-flex flex-column w-75">
-        <h3 class="fw-bold fs-2 mb-0">@Model.Name</h3>
-        <h4 class="fs-5">@Model.MinDescription</h4>
+        <h3 class="fw-bold fs-2 mb-0 overflow-hidden">@Model.Name</h3>
+        <h4 class="fs-5 overflow-hidden">@Model.MinDescription</h4>
     </div>
 
     <div class="d-flex align-items-center ">
@@ -13,6 +13,7 @@
 </div>
 
 <div class="container mt-4">
+
     <div class="row d-flex align-items-stretch">
         <div class="col-md-8 d-flex align-items-stretch p-0" >
             <img src="@Model.Venichle.MainPhotoURL" class="h-auto w-100 rounded object-fit-cover">
@@ -46,23 +47,127 @@
         </div>
     </div>
 
-    <div class="row d-flex fs-5">
-        <div class="col-md-8 d-flex justify-content-between align-content-center clock-js p-0 mt-3 sticky-top" data-timestamp="@(((DateTimeOffset)Model.TimeEnd.Date).ToUnixTimeSeconds())">
-            <div class="d-flex rounded-2 justify-content-between w-100 bg-dark text-muted p-2">
-                <span><i class="bi bi-clock"></i> Time left: <span class="countdown text-white fw-bold"></span></span>
-                <span><i class="bi bi-arrow-up"></i> High Bid <span class="text-white fw-bold">$@Model.CurrentPrice</span></span>
-                <span><i class="bi bi-hash"></i> Bids <span class="text-white fw-bold">@(Model.Bids != null ? Model.Bids.Count() : 0)</span></span>
-                <span><i class="bi bi-chat"></i> Comments <span class="text-white fw-bold">@(Model.Comments != null ? Model.Comments.Count() : 0)</span></span>
+    <div class="row">
+        <div class="col-md-8 d-flex flex-column fs-5 p-0">
+            <div class="d-flex justify-content-center align-content-between clock-js p-0 my-3 sticky-top" data-timestamp="@(((DateTimeOffset)Model.TimeEnd.Date).ToUnixTimeSeconds())">
+                <div class="d-flex rounded-2 justify-content-between w-100 bg-dark text-muted p-2">
+                    <span><i class="bi bi-clock"></i> Time left: <span class="countdown text-white fw-bold"></span></span>
+                    <span><i class="bi bi-arrow-up"></i> High Bid <span class="text-white fw-bold">$@Model.CurrentPrice</span></span>
+                    <span><i class="bi bi-hash"></i> Bids <span class="text-white fw-bold">@(Model.Bids != null ? Model.Bids.Count() : 0)</span></span>
+                    <span><i class="bi bi-chat"></i> Comments <span class="text-white fw-bold">@(Model.Comments != null ? Model.Comments.Count() : 0)</span></span>
+                </div>
+
+                <button type="button" class="btn bg-success ms-3 me-5 px-4 fw-bold text-nowrap">Place bid</button>
             </div>
 
-            <button type="button" class="btn bg-success ms-3 me-5 px-4 fw-bold text-nowrap">Place bid</button>
-        </div>
+            <table class="table table-dark table-striped rounded-2 fs-5 w-100 overflow-hidden">
+                <tr>
+                    <td scope="col" class="text-secondary">Model:</td>
+                    <td scope="col">@Model.Venichle.Model.Name</td>
+                    <td scope="col" class="text-secondary">Brand:</td>
+                    <td scope="col">@Model.Venichle.Brand.Name</td>
+                </tr>
+                <tr>
+                    <td class="text-secondary">Exterior color:</td>
+                    <td>@Model.Venichle.ExteriorColor</td>
+                    <td class="text-secondary">Year:</td>
+                    <td>@Model.Venichle.ManufactureDate</td>
+                </tr>
+                <tr>
+                    <td class="text-secondary">Interior color:</td>
+                    <td>@Model.Venichle.InteriorColor</td>
+                    <td class="text-secondary">Odometr:</td>
+                    <td>@Model.Venichle.Odometr</td>
+                </tr>
+                <tr>
+                    <td class="text-secondary">VIN:</td>
+                    <td>@Model.Venichle.VIN</td>
+                    <td class="text-secondary">Fuel type:</td>
+                    <td>@Model.Venichle.FuelType.Name</td>
+                </tr>
+                <tr>
+                    <td class="text-secondary">Body style:</td>
+                    <td>@Model.Venichle.BodyStyle.Style</td>
+                    <td class="text-secondary">Transmission:</td>
+                    <td>@Model.Venichle.Transmission.Name</td>
+                </tr>
+            </table>
 
-        <div class="col-md-4 fw-bold align-content-end fs-3">
-            Auctions ending soon
+            <h4 class="fw-bold">Description</h4>
+            <div>
+                @(Model.Venichle.IsHTMLDescription ? Html.Raw(Model.Venichle.Description) : Model.Venichle.Description)
+            </div>
+
+            <h4 class="fw-bold">Problems</h4>
+            <div>
+                @(Model.Venichle.IsHTMLProblemList ? Html.Raw(Model.Venichle.Problems) : Model.Venichle.Problems)
+            </div>
+            
+
+            <h4 class="fw-bold my-3">@Model.Name</h4>
+            <div class="d-flex justify-content-between px-4">
+                <div>
+                    <div>
+                        <span class="fw-bold fs-5">Current Bid </span>
+                        <span class="fs-5"> @(Model.Bids != null && Model.Bids.Count() > 0 ? Model.Bids.Last().User.UserName : Model.Seller.UserName)</span>
+                    </div>
+                    <div>
+                        <span class="fw-bold fntsz">$@Model.CurrentPrice</span>
+                    </div>
+                </div>
+                <div class="d-flex flex-column">
+                    <div class="d-flex">
+                        <span class="fw-bold">Seller</span>
+                        <span>@Model.Seller.UserName</span>
+                    </div>
+                    <div class="d-flex">
+                        <span class="fw-bold">Ending</span>
+                        <span>@Model.TimeEnd.ToLocalTime()</span>
+                    </div>
+                    <div>
+                        <span class="fw-bold">Bids</span>
+                        <span>@Model.Bids?.Count()</span>
+                    </div>
+                </div>
+            </div>
+                
         </div>
         
+        <div class="col-md-4 align-content-start mt-3 p-0">
+            <span class="ms-2 fw-bold fs-3">Auctions ending soon</span>
+            <div class="container">
+                <div class="row row-cols-2">
+                    @foreach (var i in ViewBag.Auctions)
+                    {
+                        <div class="col p-0">
+                            <a class="link-dark text-decoration-none" asp-route-id="@i.Id" asp-controller="Home" asp-action="Auction">
+                                <div class="card h-100 text-start">
+                                    <div class="position-relative clock-js" data-timestamp="@(((DateTimeOffset)i.TimeEnd.Date).ToUnixTimeSeconds())">
+                                        <img src="@i.Venichle.MainPhotoURL" class="card-img-top overflow-hidden bg-black" style="height: 200px;">
+                                        <p class="position-absolute bottom-0 start-0 bg-dark text-white ms-2 rounded px-2 py-1"><i class="bi bi-clock"></i> <span class="countdown me-3"></span> Bid $@i.CurrentPrice</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <div>
+                                            <h5 class="card-title fw-bold mb-1">@i.Name</h5>
+                                            <p class="card-subtitle mb-1 fs-6">@i.MinDescription</p>
+                                            <p class="card-subtitle mb-1 fs-6 text-secondary">@i.CityNow</p>
+                                        </div>
+                                        <a class="link-dark text-decoration-none watchlist-btn ms-3 me-2" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                            <i class="bi bi-star"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+
+                </div>
+        </div>
     </div>
+
+
+
+
 </div>
 
 

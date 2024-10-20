@@ -5,7 +5,7 @@ namespace Data.Entities
     public class Auction
     {
         public int Id { get; set; }
-        public int VenichleId { get; set; }
+        public int? VenichleId { get; set; }
         public int SellerId { get; set; }   
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }

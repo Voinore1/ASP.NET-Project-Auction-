@@ -1,8 +1,4 @@
 ﻿@model List<Venichle>
-
-<a class="btn bg-success" asp-controller="Account" asp-action="AddCar">Add new car</a>
-
-
 <table class="table table-striped align-middle">
     <thead>
         <tr>
@@ -53,9 +49,6 @@
                     </a>
                     <a asp-action="EditVehicle" asp-route-id="@i.Id" class="btn btn-outline-primary">
                         <i class="bi bi-pencil"></i>
-                    </a>
-                    <a asp-action="EditAuction" asp-route-id="@i.Id" class="btn btn-outline-primary">
-                        <i class="bi bi-stopwatch"></i>
                     </a>
                     
                 </td>

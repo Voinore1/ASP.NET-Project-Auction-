@@ -4,13 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Data
 {
-    public class AuctionDBContext : DbContext
+    public class AuctionDBContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public AuctionDBContext(DbContextOptions options) : base() {}
-        public AuctionDBContext() {}
+        public AuctionDBContext(DbContextOptions options) : base() { }
+        public AuctionDBContext() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,7 +39,6 @@ namespace Data
         public DbSet<FuelType> FuelTypes { get; set; }
         public DbSet<Entities.VenichleInfo.Model> Models { get; set; }
         public DbSet<Transmission> Transmissions { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Venichle> Venichles { get; set; }
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<Comment> Comments { get; set; }

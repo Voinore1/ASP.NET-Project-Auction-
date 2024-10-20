@@ -1,87 +1,188 @@
-﻿@model CreateAuctionModel
+﻿@model SellCarModel
 
 <div class="centered">
-    <form class="row g-3" method="post" asp-action="SellCar">
-        <div class="col-md-12">
-            <label asp-for="VenichleId" class="form-label">Select your vehicle</label>
-            <select asp-for="VenichleId" asp-items="ViewBag.Vehichles" type="number" class="form-control">
-                <option disabled selected>Choose...</option>
-            </select>
-            <span asp-validation-for="VenichleId" class="form-text text-danger"></span>
+    <form class="row g-3" method="post" enctype="multipart/form-data" asp-action="SellCar">
+        
+        <h2>Car details</h2>
+        <div class="col-12">
+            <label asp-for="VIN" class="form-label">VIN</label>
+            <input asp-for="VIN" type="text" class="form-control" placeholder="WMWXM5C59ET932854">
+            <span asp-validation-for=VIN class="form-text text-danger"></span>
         </div>
 
-        <h2>Car details</h2>
-        <img class="w-100 p-0" src="" id="vehicleImage" />
-        <table class="table table-dark table-striped rounded fs-5">
-            <tr>
-                <td scope="col" class="text-secondary">Model:</td>
-                <td scope="col" id="model"></td>
-                <td scope="col" class="text-secondary">Brand:</td>
-                <td scope="col" id="brand"></td>
-            </tr>
-            <tr>
-                <td class ="text-secondary">Exterior color:</td>
-                <td id="exteriorColor"></td>
-                <td class="text-secondary">Year:</td>
-                <td id="year"></td>
-            </tr>
-            <tr>
-                <td class="text-secondary">Interior color:</td>
-                <td id="interiorColor"></td>
-                <td class="text-secondary">Odometr:</td>
-                <td id="odometr"></td>
-            </tr>
-            <tr>
-                <td class="text-secondary">VIN:</td>
-                <td id="vin"></td>
-                <td class="text-secondary">Fuel type:</td>
-                <td id="fuelType"></td>
-            </tr>
-            <tr>
-                <td class="text-secondary">Body style:</td>
-                <td id="bodyStyle"></td>
-                <td class="text-secondary">Transmission:</td>
-                <td id="transmission"></td>
-            </tr>
-        </table>
+        <div class="col-md-4">
+            <label asp-for="ManufactureDate" class="form-label">Year</label>
+            <select asp-for="ManufactureDate" type="number" class="form-control">
+                <option disabled selected>Choose...</option>
+                @for (int i = 0; i < 50; i++)
+                {
+                    <option>@(DateTime.Now.Year - i)</option>
+                }
+            </select>
+            <span asp-validation-for=ManufactureDate class="form-text text-danger"></span>
+        </div>
 
-        <a asp-controller="Account" asp-action="EditCar" asp-route-id="VenichleId"></a>
+
+
+        <div class="col-md-4">
+            <label asp-for="BrandId" class="form-label">Brand</label>
+            <select asp-for="BrandId" asp-items="ViewBag.Brands" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+            <span asp-validation-for=BrandId class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="ModelId" class="form-label">Model</label>
+            <select asp-for="ModelId" id="modelSelect" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+            <span asp-validation-for="ModelId" class="form-text text-danger"></span>
+        </div>
+
+
+
+        <div class="col-md-4">
+            <label asp-for="ExteriorColor" class="form-label">Exterior Color</label>
+            <select asp-for="ExteriorColor" asp-items="ViewBag.Colors" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+            <span asp-validation-for=ExteriorColor class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="InteriorColor" class="form-label">Interior Color</label>
+            <select asp-for="InteriorColor" asp-items="ViewBag.Colors" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+            <span asp-validation-for=ExteriorColor class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="BodyStyleId" class="form-label">Body style</label>
+            <select asp-for="BodyStyleId" asp-items="ViewBag.BodyStyles" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+            <span asp-validation-for=BodyStyleId class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="FuelTypeId" class="form-label">Fuel type</label>
+            <select asp-for="FuelTypeId" asp-items="ViewBag.FuelTypes" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+            <span asp-validation-for=FuelTypeId class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="TransmissionId" class="form-label">Transmission</label>
+            <select asp-for="TransmissionId" asp-items="ViewBag.Transmissions" class="form-control">
+                <option disabled selected>Choose...</option>
+            </select>
+            <span asp-validation-for=TransmissionId class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Odometr" class="form-label">Odometr(in km)</label>
+            <input asp-for="Odometr" step="100" type="number" class="form-control" placeholder="100000">
+            <span asp-validation-for=Odometr class="form-text text-danger"></span>
+        </div>
+
+        <div class="btn-group col-md-12" role="group">
+            <input asp-for="IsModified" type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+            <label class="btn btn-outline-dark" for="btncheck1">Modified</label>
+
+
+            <input asp-for="HaveProblems" type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+            <label class="btn btn-outline-dark" for="btncheck2">Have problems</label>
+
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="Description" class="form-label">Description (Can be HTML code)</label>
+            <textarea asp-for="Description" class="form-control" rows="3" placeholder=""></textarea>
+            <span asp-validation-for=Description class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-check">
+                <input asp-for="IsHTMLDescription" class="form-check-input" type="checkbox" id="gridCheck">
+                <span asp-validation-for=IsHTMLDescription class="form-text text-danger"></span>
+                <label asp-for="IsHTMLDescription" class="form-check-label" for="gridCheck">
+                    HTML code
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="Problems" class="form-label">List of problems (Can be HTML code)</label>
+            <textarea asp-for="Problems" class="form-control" rows="3" placeholder=""></textarea>
+            <span asp-validation-for=Problems class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-check">
+                <input asp-for="IsHTMLProblemList" class="form-check-input" type="checkbox" id="gridCheck1">
+                <span asp-validation-for=IsHTMLProblemList class="form-text text-danger"></span>
+                <label asp-for="IsHTMLProblemList" class="form-check-label" for="gridCheck1">
+                    HTML code
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="MainPhoto" class="form-label">Load the front foto</label>
+            <input asp-for="MainPhoto" type="file" class="form-control">
+            <span asp-validation-for=MainPhoto class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="ExteriorPhotos" class="form-label">Load exterior fotos</label>
+            <input asp-for="ExteriorPhotos" type="file" multiple class="form-control">
+            <span asp-validation-for=ExteriorPhotos class="form-text text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="InteriorPhotos" class="form-label">Load interior photos</label>
+            <input asp-for="InteriorPhotos" type="file" multiple class="form-control">
+            <span asp-validation-for=InteriorPhotos class="form-text text-danger"></span>
+        </div>
 
         <h2>Auction details</h2>
 
         <div class="col-md-6">
-            <label asp-for="TimeStart">Auction Start</label>
-            <input asp-for="TimeStart" type="datetime-local"/>
-            <span asp-validation-for=TimeStart class="form-text text-danger"></span>
+            <label asp-for="AuctionTimeStart">Auction Start</label>
+            <input asp-for="AuctionTimeStart"/>
+            <span asp-validation-for=AuctionTimeStart class="form-text text-danger"></span>
         </div>
 
         <div class="col-md-6">
-            <label asp-for="TimeEnd">Auction End</label>
-            <input asp-for="TimeEnd" type="datetime-local"/>
-            <span asp-validation-for=TimeEnd class="form-text text-danger"></span>
+            <label asp-for="AuctionTimeEnd">Auction End</label>
+            <input asp-for="AuctionTimeEnd"/>
+            <span asp-validation-for=AuctionTimeEnd class="form-text text-danger"></span>
         </div>
 
         <div class ="col-md-6">
-            <label asp-for="StartPrice" class="form-label">Start price</label>
-            <input asp-for="StartPrice" type="number" class="form-control" placeholder="10000">
-            <span asp-validation-for=StartPrice class="form-text text-danger"></span>
+            <label asp-for="AuctionStartPrice" class="form-label">Start price</label>
+            <input asp-for="AuctionStartPrice" type="number" class="form-control" placeholder="10000">
+            <span asp-validation-for=AuctionStartPrice class="form-text text-danger"></span>
         </div>
 
         <div class="col-md-6">
-            <label asp-for="CityNow" class="form-label">City now</label>
-            <input asp-for="CityNow" type="text" class="form-control">
-            <span asp-validation-for=CityNow class="form-text text-danger"></span>
+            <label asp-for="AuctionCityNow" class="form-label">City now</label>
+            <input asp-for="AuctionCityNow" type="text" class="form-control">
+            <span asp-validation-for=AuctionCityNow class="form-text text-danger"></span>
         </div>
 
         <div class="col-md-12">
-            <label asp-for="Name" class="form-label">Front name</label>
-            <input asp-for="Name" type="text" class="form-control" placeholder="BMW 3 Series 2013">
-            <span asp-validation-for=Name class="form-text text-danger"></span>
+            <label asp-for="AuctionName" class="form-label">Front name</label>
+            <input asp-for="AuctionName" type="text" class="form-control" placeholder="BMW 3 Series 2013">
+            <span asp-validation-for=AuctionName class="form-text text-danger"></span>
         </div>
 
         <div class="col-md-12">
-            <label asp-for="MinDescription" class="form-label">Min. description</label>
-            <textarea asp-for="MinDescription" class="form-control" rows="3" placeholder="~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified"></textarea>
+            <label asp-for="AuctionMinDescription" class="form-label">Min. description</label>
+            <textarea asp-for="AuctionMinDescription" class="form-control" rows="3" placeholder="~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified"></textarea>
         </div>
               
         <div class="col-md-6">

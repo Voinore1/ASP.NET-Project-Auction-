@@ -14,6 +14,48 @@ namespace Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Balance = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BodyStyles",
                 columns: table => new
                 {
@@ -66,20 +108,109 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
-                    Balance = table.Column<int>(type: "int", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,6 +265,12 @@ namespace Data.Migrations
                 {
                     table.PrimaryKey("PK_Venichles", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Venichles_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Venichles_BodyStyles_BodyStyleId",
                         column: x => x.BodyStyleId,
                         principalTable: "BodyStyles",
@@ -155,18 +292,11 @@ namespace Data.Migrations
                         name: "FK_Venichles_Models_ModelId",
                         column: x => x.ModelId,
                         principalTable: "Models",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Venichles_Transmissions_TransmissionId",
                         column: x => x.TransmissionId,
                         principalTable: "Transmissions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Venichles_Users_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -177,7 +307,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VenichleId = table.Column<int>(type: "int", nullable: false),
+                    VenichleId = table.Column<int>(type: "int", nullable: true),
                     SellerId = table.Column<int>(type: "int", nullable: false),
                     TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -192,9 +322,9 @@ namespace Data.Migrations
                 {
                     table.PrimaryKey("PK_Auctions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Auctions_Users_SellerId",
+                        name: "FK_Auctions_AspNetUsers_SellerId",
                         column: x => x.SellerId,
-                        principalTable: "Users",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -202,7 +332,7 @@ namespace Data.Migrations
                         column: x => x.VenichleId,
                         principalTable: "Venichles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,15 +346,15 @@ namespace Data.Migrations
                 {
                     table.PrimaryKey("PK_AuctionUser", x => new { x.ViewersId, x.WatchListId });
                     table.ForeignKey(
-                        name: "FK_AuctionUser_Auctions_WatchListId",
-                        column: x => x.WatchListId,
-                        principalTable: "Auctions",
+                        name: "FK_AuctionUser_AspNetUsers_ViewersId",
+                        column: x => x.ViewersId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuctionUser_Users_ViewersId",
-                        column: x => x.ViewersId,
-                        principalTable: "Users",
+                        name: "FK_AuctionUser_Auctions_WatchListId",
+                        column: x => x.WatchListId,
+                        principalTable: "Auctions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -244,15 +374,15 @@ namespace Data.Migrations
                 {
                     table.PrimaryKey("PK_Bid", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bid_Auctions_AuctionId",
-                        column: x => x.AuctionId,
-                        principalTable: "Auctions",
+                        name: "FK_Bid_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bid_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Bid_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -275,15 +405,15 @@ namespace Data.Migrations
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Auctions_AuctionId",
-                        column: x => x.AuctionId,
-                        principalTable: "Auctions",
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Comments_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -354,11 +484,6 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Balance", "Email", "Password", "PhoneNumber", "Username" },
-                values: new object[] { 1, 1000000, "admin@gmail.com", "1", 1954161, "admin" });
-
-            migrationBuilder.InsertData(
                 table: "Models",
                 columns: new[] { "Id", "BrandId", "Name" },
                 values: new object[,]
@@ -389,29 +514,44 @@ namespace Data.Migrations
                     { 24, 4, "Focus" }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Venichles",
-                columns: new[] { "Id", "AuctionId", "BodyStyleId", "BrandId", "Description", "ExteriorColor", "ExteriorPhotosURLId", "FuelTypeId", "HaveProblems", "InteriorColor", "InteriorPhotosURLId", "IsHTMLDescription", "IsHTMLProblemList", "IsModified", "MainPhotoURL", "ManufactureDate", "ModelId", "Odometr", "OwnerId", "Problems", "TransmissionId", "VIN" },
-                values: new object[,]
-                {
-                    { 1, null, 2, 3, "Good car", "Black", null, 1, false, "Black", null, false, false, true, "https://images.unsplash.com/photo-1672151574300-b32db79a42db?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 2007, 18, 100000, 1, null, 2, "1G1YY26U575100001" },
-                    { 2, null, 1, 1, "Audi A3 in excellent condition", "White", "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]", 1, false, "Black", "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]", false, false, false, "https://images.unsplash.com/photo-1717711081688-985a7a3e6a9f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 2019, 1, 20000, 1, null, 2, "WAUZZZ8V7KA123456" },
-                    { 3, null, 1, 2, "BMW 3 Series, well maintained", "Blue", "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]", 1, false, "Black", "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]", false, false, false, "https://www.topgear.com/sites/default/files/2022/11/P90485000_highRes_bmw-330e-xdrive-tour.jpg", 2013, 11, 60000, 1, null, 2, "WBA3A5C50DF123456" },
-                    { 4, null, 11, 4, "Ford F-150, great for off-road", "Silver", "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]", 2, false, "Black", "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]", false, false, true, "https://i.infocar.ua/i/12/6467/1400x936.jpg", 2014, 22, 70000, 1, null, 2, "1FTFW1EF1EK123456" },
-                    { 5, null, 1, 10, "Tesla Model 3, electric car", "Black", "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]", 3, false, "Black", "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]", false, false, false, "https://tsk.ua/datacache/f/8/f/9/4/f8f948db809a2713f2790bb16426a365a26df356.jpeg", 2019, 24, 20000, 1, null, 2, "5YJ3E1EA7KF123456" }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
 
-            migrationBuilder.InsertData(
-                table: "Auctions",
-                columns: new[] { "Id", "CityNow", "CurrentPrice", "IsSold", "MinDescription", "Name", "SellerId", "StartPrice", "TimeEnd", "TimeStart", "VenichleId" },
-                values: new object[,]
-                {
-                    { 1, "Kyiv", 20000, false, "500-hp V8, Rare DTM-Inspired CLK, Mostly Unmodified", "Chevrolet Corvette 2007", 1, 20000, new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3818), new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3763), 1 },
-                    { 2, "Kyiv", 30000, false, "~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified", "Audi A3 2019", 1, 30000, new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3827), new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3825), 2 },
-                    { 3, "Kyiv", 25000, false, "Twin-Turbo V8, Sport Package, Some Modifications", "BMW 3 Series 2013", 1, 25000, new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3832), new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3831), 3 },
-                    { 4, "Kyiv", 35000, false, "V10 Power, Rod Bearings Replaced, Mostly Unmodified", "Ford F-150 2014", 1, 35000, new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3838), new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3836), 4 },
-                    { 5, "Kyiv", 40000, false, "~37,000 Miles, Rare Coupe Model, 5-Speed Manual, Extensively Modified", "Tesla Model 3 2019", 1, 40000, new DateTime(2024, 10, 17, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3843), new DateTime(2024, 10, 10, 23, 26, 2, 344, DateTimeKind.Local).AddTicks(3841), 5 }
-                });
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Auctions_SellerId",
@@ -422,7 +562,8 @@ namespace Data.Migrations
                 name: "IX_Auctions_VenichleId",
                 table: "Auctions",
                 column: "VenichleId",
-                unique: true);
+                unique: true,
+                filter: "[VenichleId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AuctionUser_WatchListId",
@@ -489,6 +630,21 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "AuctionUser");
 
             migrationBuilder.DropTable(
@@ -498,10 +654,16 @@ namespace Data.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "Auctions");
 
             migrationBuilder.DropTable(
                 name: "Venichles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "BodyStyles");
@@ -514,9 +676,6 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Transmissions");
-
-            migrationBuilder.DropTable(
-                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Brands");

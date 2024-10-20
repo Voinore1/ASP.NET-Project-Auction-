@@ -2,6 +2,8 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.MapperProfiles;
 using WebApplication1.Services;
+using Microsoft.AspNetCore.Identity;
+using Data.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AuctionDBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LoaclDb"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb"));
 });
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<AuctionDBContext>();
 
 builder.Services.AddScoped<IFileService, FileService>();
 
@@ -34,6 +38,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

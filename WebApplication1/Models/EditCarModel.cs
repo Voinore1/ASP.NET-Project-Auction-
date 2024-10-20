@@ -1,10 +1,13 @@
-﻿using Data.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication1.Models
 {
-    public class CreateVehichleModel
+    public class EditCarModel
     {
+        // Vehicle part
+
+        public int Id { get; set; }
         [StringLength(17)]
         public string VIN { get; set; } = null!;
         public int ManufactureDate { get; set; }
@@ -18,29 +21,30 @@ namespace WebApplication1.Models
         public string? Description { get; set; }
         public bool IsHTMLProblemList { get; set; }
         public bool IsHTMLDescription { get; set; }
-
-
-
-        public IFormFile? MainPhoto { get; set; }
-        public IEnumerable<IFormFile>? ExteriorPhotos { get; set; }
-        public IEnumerable<IFormFile>? InteriorPhotos { get; set; }
-        public string? MainPhotoURL { get; set; }
-        public IList<string>? ExteriorPhotosURLId { get; set; }
-        public IList<string>? InteriorPhotosURLId { get; set; }
-
-
-
-
-
         public int BrandId { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "You need to choose model")]
         public int ModelId { get; set; }
         public int BodyStyleId { get; set; }
         public int FuelTypeId { get; set; }
         public int TransmissionId { get; set; }
-        public int? OwnerId { get; set; }
-        public int? AuctionId { get; set; }
-        public int? Id { get; set; }
 
+        public IFormFile? MainPhoto { get; set; }
+        public IEnumerable<IFormFile>? ExteriorPhotos { get; set; }
+        public IEnumerable<IFormFile>? InteriorPhotos { get; set; }
+        public string? MainPhotoURl { get; set; }
+        public IList<string>? ExteriorPhotosURLId { get; set; }
+        public IList<string>? InteriorPhotosURLId { get; set; }
+
+
+        // Auction part
+        public int AuctionId { get; set; }
+
+        public DateTime AuctionTimeStart { get; set; }
+        public DateTime AuctionTimeEnd { get; set; }
+        public string AuctionName { get; set; } = null!;
+        public string AuctionMinDescription { get; set; } = null!;
+        public int AuctionStartPrice { get; set; }
+        public bool AuctionIsSold { get; set; } = false;
+        public string AuctionCityNow { get; set; } = null!;
     }
 }

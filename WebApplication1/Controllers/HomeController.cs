@@ -6,20 +6,19 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(AuctionDBContext context) : Controller
     {
-        public AuctionDBContext context;
-
-        public HomeController(AuctionDBContext context)
-        {
-            this.context = context;
-        }
 
         public IActionResult Index()
         {
             var aucs = context.Auctions.Include(x => x.Venichle).ToList();
 
             return View(aucs);
+        }
+
+        public void LoadEndingAuctions()
+        {
+            ViewBag.Auctions = context.Auctions.Include(x => x.Venichle).OrderBy(x => x.TimeEnd).Take(10).ToList();
         }
 
         public IActionResult Auction(int id)
@@ -40,8 +39,11 @@ namespace WebApplication1.Controllers
                 .Include(x => x.Venichle)
                     .ThenInclude(v => v.Owner)
                 .Include(x => x.Bids)
+                    .ThenInclude(b => b.User)
                 .Include(x => x.Comments)
                 .FirstOrDefault(x => x.Id == id);
+
+            LoadEndingAuctions();
 
             return View(auc);
         }

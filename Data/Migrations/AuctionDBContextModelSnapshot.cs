@@ -17,7 +17,7 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -34,7 +34,7 @@ namespace Data.Migrations
 
                     b.HasIndex("WatchListId");
 
-                    b.ToTable("AuctionUser", (string)null);
+                    b.ToTable("AuctionUser");
                 });
 
             modelBuilder.Entity("Data.Entities.Auction", b =>
@@ -86,79 +86,7 @@ namespace Data.Migrations
                         .IsUnique()
                         .HasFilter("[VenichleId] IS NOT NULL");
 
-                    b.ToTable("Auctions", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CityNow = "Kyiv",
-                            CurrentPrice = 20000,
-                            IsSold = false,
-                            MinDescription = "500-hp V8, Rare DTM-Inspired CLK, Mostly Unmodified",
-                            Name = "Chevrolet Corvette 2007",
-                            SellerId = 1,
-                            StartPrice = 20000,
-                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9691),
-                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9635),
-                            VenichleId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CityNow = "Kyiv",
-                            CurrentPrice = 30000,
-                            IsSold = false,
-                            MinDescription = "~18,000 Miles, 2 Owners, Supercharged AMG V6, Unmodified",
-                            Name = "Audi A3 2019",
-                            SellerId = 1,
-                            StartPrice = 30000,
-                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9701),
-                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9699),
-                            VenichleId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CityNow = "Kyiv",
-                            CurrentPrice = 25000,
-                            IsSold = false,
-                            MinDescription = "Twin-Turbo V8, Sport Package, Some Modifications",
-                            Name = "BMW 3 Series 2013",
-                            SellerId = 1,
-                            StartPrice = 25000,
-                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9706),
-                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9704),
-                            VenichleId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CityNow = "Kyiv",
-                            CurrentPrice = 35000,
-                            IsSold = false,
-                            MinDescription = "V10 Power, Rod Bearings Replaced, Mostly Unmodified",
-                            Name = "Ford F-150 2014",
-                            SellerId = 1,
-                            StartPrice = 35000,
-                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9711),
-                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9709),
-                            VenichleId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CityNow = "Kyiv",
-                            CurrentPrice = 40000,
-                            IsSold = false,
-                            MinDescription = "~37,000 Miles, Rare Coupe Model, 5-Speed Manual, Extensively Modified",
-                            Name = "Tesla Model 3 2019",
-                            SellerId = 1,
-                            StartPrice = 40000,
-                            TimeEnd = new DateTime(2024, 10, 18, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9716),
-                            TimeStart = new DateTime(2024, 10, 11, 17, 2, 44, 328, DateTimeKind.Local).AddTicks(9715),
-                            VenichleId = 5
-                        });
+                    b.ToTable("Auctions");
                 });
 
             modelBuilder.Entity("Data.Entities.Bid", b =>
@@ -187,7 +115,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bid", (string)null);
+                    b.ToTable("Bid");
                 });
 
             modelBuilder.Entity("Data.Entities.Comment", b =>
@@ -226,7 +154,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Data.Entities.User", b =>
@@ -237,38 +165,67 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("Balance")
                         .HasColumnType("int");
 
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
-                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
+                    b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Balance = 1000000,
-                            Email = "admin@gmail.com",
-                            Password = "1",
-                            PhoneNumber = 1954161,
-                            Username = "admin"
-                        });
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.VenichleInfo.BodyStyle", b =>
@@ -285,7 +242,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BodyStyles", (string)null);
+                    b.ToTable("BodyStyles");
 
                     b.HasData(
                         new
@@ -379,7 +336,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
 
                     b.HasData(
                         new
@@ -458,7 +415,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FuelTypes", (string)null);
+                    b.ToTable("FuelTypes");
 
                     b.HasData(
                         new
@@ -512,7 +469,7 @@ namespace Data.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Models", (string)null);
+                    b.ToTable("Models");
 
                     b.HasData(
                         new
@@ -675,7 +632,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transmissions", (string)null);
+                    b.ToTable("Transmissions");
 
                     b.HasData(
                         new
@@ -789,122 +746,140 @@ namespace Data.Migrations
 
                     b.HasIndex("TransmissionId");
 
-                    b.ToTable("Venichles", (string)null);
+                    b.ToTable("Venichles");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BodyStyleId = 2,
-                            BrandId = 3,
-                            Description = "Good car",
-                            ExteriorColor = "Black",
-                            FuelTypeId = 1,
-                            HaveProblems = false,
-                            InteriorColor = "Black",
-                            IsHTMLDescription = false,
-                            IsHTMLProblemList = false,
-                            IsModified = true,
-                            MainPhotoURL = "https://images.unsplash.com/photo-1672151574300-b32db79a42db?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            ManufactureDate = 2007,
-                            ModelId = 18,
-                            Odometr = 100000,
-                            OwnerId = 1,
-                            TransmissionId = 2,
-                            VIN = "1G1YY26U575100001"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BodyStyleId = 1,
-                            BrandId = 1,
-                            Description = "Audi A3 in excellent condition",
-                            ExteriorColor = "White",
-                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
-                            FuelTypeId = 1,
-                            HaveProblems = false,
-                            InteriorColor = "Black",
-                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
-                            IsHTMLDescription = false,
-                            IsHTMLProblemList = false,
-                            IsModified = false,
-                            MainPhotoURL = "https://images.unsplash.com/photo-1717711081688-985a7a3e6a9f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            ManufactureDate = 2019,
-                            ModelId = 1,
-                            Odometr = 20000,
-                            OwnerId = 1,
-                            TransmissionId = 2,
-                            VIN = "WAUZZZ8V7KA123456"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BodyStyleId = 1,
-                            BrandId = 2,
-                            Description = "BMW 3 Series, well maintained",
-                            ExteriorColor = "Blue",
-                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
-                            FuelTypeId = 1,
-                            HaveProblems = false,
-                            InteriorColor = "Black",
-                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
-                            IsHTMLDescription = false,
-                            IsHTMLProblemList = false,
-                            IsModified = false,
-                            MainPhotoURL = "https://www.topgear.com/sites/default/files/2022/11/P90485000_highRes_bmw-330e-xdrive-tour.jpg",
-                            ManufactureDate = 2013,
-                            ModelId = 11,
-                            Odometr = 60000,
-                            OwnerId = 1,
-                            TransmissionId = 2,
-                            VIN = "WBA3A5C50DF123456"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            BodyStyleId = 11,
-                            BrandId = 4,
-                            Description = "Ford F-150, great for off-road",
-                            ExteriorColor = "Silver",
-                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
-                            FuelTypeId = 2,
-                            HaveProblems = false,
-                            InteriorColor = "Black",
-                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
-                            IsHTMLDescription = false,
-                            IsHTMLProblemList = false,
-                            IsModified = true,
-                            MainPhotoURL = "https://i.infocar.ua/i/12/6467/1400x936.jpg",
-                            ManufactureDate = 2014,
-                            ModelId = 22,
-                            Odometr = 70000,
-                            OwnerId = 1,
-                            TransmissionId = 2,
-                            VIN = "1FTFW1EF1EK123456"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            BodyStyleId = 1,
-                            BrandId = 10,
-                            Description = "Tesla Model 3, electric car",
-                            ExteriorColor = "Black",
-                            ExteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
-                            FuelTypeId = 3,
-                            HaveProblems = false,
-                            InteriorColor = "Black",
-                            InteriorPhotosURLId = "[\"https://images.unsplash.com/photo-1608412217976-cdbed1034b41?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412218116-dbec61977136?w=500\\u0026auto=format\\u0026fit=crop\\u0026q=60\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D\",\"https://images.unsplash.com/photo-1608412977534-c235d8c31b14?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\"https://images.unsplash.com/photo-1608412217889-1ec8ac1d5878?q=80\\u0026w=2070\\u0026auto=format\\u0026fit=crop\\u0026ixlib=rb-4.0.3\\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"]",
-                            IsHTMLDescription = false,
-                            IsHTMLProblemList = false,
-                            IsModified = false,
-                            MainPhotoURL = "https://tsk.ua/datacache/f/8/f/9/4/f8f948db809a2713f2790bb16426a365a26df356.jpeg",
-                            ManufactureDate = 2019,
-                            ModelId = 24,
-                            Odometr = 20000,
-                            OwnerId = 1,
-                            TransmissionId = 2,
-                            VIN = "5YJ3E1EA7KF123456"
-                        });
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("AuctionUser", b =>
@@ -1038,6 +1013,57 @@ namespace Data.Migrations
                     b.Navigation("Owner");
 
                     b.Navigation("Transmission");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("Data.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("Data.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("Data.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Entities.Auction", b =>

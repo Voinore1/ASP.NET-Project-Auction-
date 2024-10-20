@@ -2,20 +2,24 @@
 using Data;
 using Data.Entities;
 using Data.Entities.VenichleInfo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Claims;
 using WebApplication1.Models;
 using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class AccountController(IMapper mapper, AuctionDBContext context, IFileService fileService) : Controller
     {
         private readonly IFileService fileService = fileService;
         private readonly AuctionDBContext context = context;
         private readonly IMapper mapper = mapper;
+        public int CurrentUserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         private void LoadBrands()
         {
@@ -32,13 +36,6 @@ namespace WebApplication1.Controllers
         private void LoadFuelTypes()
         {
             ViewBag.FuelTypes = new SelectList(context.FuelTypes.ToList(), "Id", "Name");
-        }
-        private void LoadMyCarsAuctionsOff()
-        {
-            ViewBag.Vehichles = new SelectList(
-                context.Venichles.Include(v => v.Auction)
-                                 .Include(v => v.Model)
-                                 .Where(v => v.OwnerId == 1 && v.Auction == null).ToList(), "Id", "Model.Name");
         }
         private void LoadAll() 
         {
@@ -91,63 +88,29 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IActionResult SellCar()
         {
-            LoadMyCarsAuctionsOff();
-
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult SellCar(CreateAuctionModel model)
-        {
-            if (!ModelState.IsValid || model.TimeEnd <= model.TimeStart)
-            {
-                LoadMyCarsAuctionsOff();
-                return View(model);
-            }
-
-            model.CurrentPrice = model.StartPrice;
-
-            var auc = mapper.Map<Auction>(model);
-
-            context.Auctions.Add(auc);
-            context.SaveChanges();
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpGet]
-        public IActionResult AddCar()
-        {
             LoadAll();
-
             return View();
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> AddCar(CreateVehichleModel model)
+        public IActionResult SellCar(SellCarModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model.AuctionTimeEnd <= model.AuctionTimeStart)
             {
                 LoadAll();
                 return View(model);
             }
 
             var ven = mapper.Map<Venichle>(model);
-            ven.OwnerId = 1;
 
-            Console.WriteLine(model.ExteriorPhotos);
-            if (model.MainPhoto != null)
-                ven.MainPhotoURL = await fileService.SaveImage(model.MainPhoto);
-            if(model.ExteriorPhotos != null)
-                ven.ExteriorPhotosURLId = await fileService.SaveImages(model.ExteriorPhotos.ToList());
-            if (model.InteriorPhotos != null)
-                ven.InteriorPhotosURLId = await fileService.SaveImages(model.InteriorPhotos.ToList());
+            ven.OwnerId = CurrentUserId;
+            ven.Auction.SellerId = CurrentUserId;
 
             context.Venichles.Add(ven);
+
             context.SaveChanges();
 
-            return RedirectToAction("MyVehichles", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult MyVehichles()
@@ -159,7 +122,8 @@ namespace WebApplication1.Controllers
                                        .Include(v => v.Transmission)
                                        .Include(v => v.Owner)
                                        .Include(v => v.Auction)
-                                       .Where(v => v.OwnerId == 1).ToList();
+                                       .Where(v => v.OwnerId == CurrentUserId).ToList();
+            Console.WriteLine(CurrentUserId);
 
             return View(ven);
         }
@@ -193,50 +157,19 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IActionResult EditVehicle(int id)
         {
-            var ven = context.Venichles.Find(id);
-
-            if (ven == null) return NotFound();
-
-            LoadAll();
-
-            var entity = mapper.Map<CreateVehichleModel>(ven);
-
-            return View(entity);
-        }
-
-        [HttpPost]
-        public IActionResult EditVehicle(CreateVehichleModel ven)
-        {
-            if (!ModelState.IsValid)
-            {
-                LoadAll();
-                return View(ven);
-            }
-
-            var entity = mapper.Map<Venichle>(ven);
-
-            context.Venichles.Update(entity);
-            context.SaveChanges();
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpGet]
-        public IActionResult EditAuction(int id)
-        {
             var ven = context.Venichles.Include(x => x.Auction).FirstOrDefault(x => x.Id == id);
 
             if (ven == null) return NotFound();
 
             LoadAll();
 
-            var entity = mapper.Map<CreateAuctionModel>(ven.Auction);
+            var entity = mapper.Map<EditCarModel>(ven);
 
             return View(entity);
         }
 
         [HttpPost]
-        public IActionResult EditAuction(CreateAuctionModel ven)
+        public IActionResult EditVehicle(EditCarModel ven)
         {
             if (!ModelState.IsValid)
             {
@@ -244,14 +177,24 @@ namespace WebApplication1.Controllers
                 return View(ven);
             }
 
-            var entity = mapper.Map<Auction>(ven);
-            entity.CurrentPrice = entity.StartPrice;
+            ven.ExteriorPhotosURLId = context.Venichles.AsNoTracking().FirstOrDefault(x => x.Id == ven.Id).ExteriorPhotosURLId;
+            ven.InteriorPhotosURLId = context.Venichles.AsNoTracking().FirstOrDefault(x => x.Id == ven.Id).InteriorPhotosURLId;
 
-            context.Auctions.Update(entity);
+            var entity = mapper.Map<Venichle>(ven);
+            entity.OwnerId = CurrentUserId;
+
+
+            var auc = mapper.Map<Auction>(ven);
+            auc.SellerId = CurrentUserId;
+
+            context.Venichles.Update(entity);
+            context.Auctions.Update(auc);
             context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }
+
+
 
     }
 }
