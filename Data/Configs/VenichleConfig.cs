@@ -13,31 +13,34 @@ namespace Data.Configs
     {
         public void Configure(EntityTypeBuilder<Venichle> builder)
         {
-            builder.HasOne(x => x.BodyStyle)
-                   .WithMany(x => x.Venichles)
-                   .HasForeignKey(x => x.BodyStyleId)
-                   .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.Auction)
+                   .WithOne(x => x.Venichle)
+                   .HasForeignKey<Venichle>(x => x.AuctionId);
 
-            builder.HasOne(x => x.FuelType)
+            builder.HasOne(x => x.Owner)
                    .WithMany(x => x.Venichles)
-                   .HasForeignKey(x => x.FuelTypeId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(x => x.Transmission)
-                   .WithMany(x => x.Venichles)
-                   .HasForeignKey(x => x.TransmissionId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(x => x.Brand)
-                   .WithMany(x => x.Venichles)
-                   .HasForeignKey(x => x.BrandId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
+                   .HasForeignKey(x => x.OwnerId);
 
             builder.HasOne(x => x.Model)
                    .WithMany(x => x.Venichles)
                    .HasForeignKey(x => x.ModelId)
                    .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.BodyStyle)
+                   .WithMany(x => x.Venichles)
+                   .HasForeignKey(x => x.BodyStyleId);
+
+            builder.HasOne(x => x.FuelType)
+                   .WithMany(x => x.Venichles)
+                   .HasForeignKey(x => x.FuelTypeId);
+
+            builder.HasOne(x => x.Transmission)
+                   .WithMany(x => x.Venichles)
+                   .HasForeignKey(x => x.TransmissionId);
+
+            builder.HasOne(x => x.Brand)
+                   .WithMany(x => x.Venichles)
+                   .HasForeignKey(x => x.BrandId);
 
 
 

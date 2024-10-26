@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AuctionDBContext))]
-    [Migration("20241017202606_Initial")]
+    [Migration("20241024163048_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AuctionUser", b =>
-                {
-                    b.Property<int>("ViewersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WatchListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ViewersId", "WatchListId");
-
-                    b.HasIndex("WatchListId");
-
-                    b.ToTable("AuctionUser");
-                });
 
             modelBuilder.Entity("Data.Entities.Auction", b =>
                 {
@@ -85,10 +70,6 @@ namespace Data.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.HasIndex("VenichleId")
-                        .IsUnique()
-                        .HasFilter("[VenichleId] IS NOT NULL");
-
                     b.ToTable("Auctions");
                 });
 
@@ -118,7 +99,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bid");
+                    b.ToTable("Bids");
                 });
 
             modelBuilder.Entity("Data.Entities.Comment", b =>
@@ -132,21 +113,15 @@ namespace Data.Migrations
                     b.Property<int>("AuctionId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsReply")
-                        .HasColumnType("bit");
+                    b.Property<DateTime>("CommentTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsSeller")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ReplyCommentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -169,9 +144,6 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Balance")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -737,6 +709,10 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuctionId")
+                        .IsUnique()
+                        .HasFilter("[AuctionId] IS NOT NULL");
+
                     b.HasIndex("BodyStyleId");
 
                     b.HasIndex("BrandId");
@@ -885,37 +861,15 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AuctionUser", b =>
-                {
-                    b.HasOne("Data.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("ViewersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Entities.Auction", null)
-                        .WithMany()
-                        .HasForeignKey("WatchListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Data.Entities.Auction", b =>
                 {
                     b.HasOne("Data.Entities.User", "Seller")
                         .WithMany("Auctions")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.VenichleInfo.Venichle", "Venichle")
-                        .WithOne("Auction")
-                        .HasForeignKey("Data.Entities.Auction", "VenichleId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.Navigation("Seller");
-
-                    b.Navigation("Venichle");
                 });
 
             modelBuilder.Entity("Data.Entities.Bid", b =>
@@ -929,7 +883,7 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Bids")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -948,7 +902,7 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Auction");
@@ -969,6 +923,10 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.VenichleInfo.Venichle", b =>
                 {
+                    b.HasOne("Data.Entities.Auction", "Auction")
+                        .WithOne("Venichle")
+                        .HasForeignKey("Data.Entities.VenichleInfo.Venichle", "AuctionId");
+
                     b.HasOne("Data.Entities.VenichleInfo.BodyStyle", "BodyStyle")
                         .WithMany("Venichles")
                         .HasForeignKey("BodyStyleId")
@@ -1004,6 +962,8 @@ namespace Data.Migrations
                         .HasForeignKey("TransmissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Auction");
 
                     b.Navigation("BodyStyle");
 
@@ -1074,6 +1034,9 @@ namespace Data.Migrations
                     b.Navigation("Bids");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Venichle")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Entities.User", b =>
@@ -1112,11 +1075,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.VenichleInfo.Transmission", b =>
                 {
                     b.Navigation("Venichles");
-                });
-
-            modelBuilder.Entity("Data.Entities.VenichleInfo.Venichle", b =>
-                {
-                    b.Navigation("Auction");
                 });
 #pragma warning restore 612, 618
         }

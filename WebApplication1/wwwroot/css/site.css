@@ -26,4 +26,8 @@ body {
     background-color: #4AD493 !important;
 }
 
+.w-min-content{
+    width: min-content;
+}
+
 

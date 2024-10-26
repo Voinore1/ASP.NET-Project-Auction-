@@ -1,13 +1,18 @@
 ﻿using Data;
+using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Claims;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController(AuctionDBContext context) : Controller
     {
+        public int CurrentUserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
 
         public IActionResult Index()
         {
@@ -21,9 +26,17 @@ namespace WebApplication1.Controllers
             ViewBag.Auctions = context.Auctions.Include(x => x.Venichle).OrderBy(x => x.TimeEnd).Take(10).ToList();
         }
 
+        private void LoadCommentBids(int id)
+        {
+            List<IDisplayable> displayables = new List<IDisplayable>();
+            displayables.AddRange(context.Comments.Include(x => x.User).Where(x => x.AuctionId == id).ToList());
+            displayables.AddRange(context.Bids.Include(x => x.User).Where(x => x.AuctionId == id).ToList());
+            ViewBag.Displayables = displayables.OrderByDescending(x => x.Time).ToList();
+        }
+
         public IActionResult Auction(int id)
         {
-            var auc = context.Auctions
+            var auction = context.Auctions
                 .Include(x => x.Venichle)
                     .ThenInclude(v => v.BodyStyle)
                 .Include(x => x.Venichle)
@@ -44,8 +57,77 @@ namespace WebApplication1.Controllers
                 .FirstOrDefault(x => x.Id == id);
 
             LoadEndingAuctions();
+            LoadCommentBids(id);
 
-            return View(auc);
+            if (auction == null) return NotFound();
+
+            ViewBag.auc = auction;
+
+            return View();
+        }
+
+        [HttpPost, Authorize]
+        public IActionResult AddComment(BidCommentModel model)
+        {
+            if (string.IsNullOrEmpty(model.Text))
+            {
+                ModelState.AddModelError("text", "Comment cannot be empty.");
+
+                return RedirectToAction("Auction", new { id = model.AuctionId });
+
+            }
+
+            var comment = new Comment
+            {
+                AuctionId = model.AuctionId,
+                Text = model.Text,
+                CommentTime = DateTime.Now,
+                UserId = CurrentUserId
+            };
+
+
+            context.Comments.Add(comment);
+            context.SaveChanges();
+
+            return RedirectToAction("Auction", new { id = model.AuctionId });
+        }
+
+        [HttpPost, Authorize]
+        public IActionResult AddBid(BidCommentModel model)
+        {
+            var lastBid = context.Bids.OrderByDescending(x => x.Value).FirstOrDefault(x => x.AuctionId == model.AuctionId);
+            var auc = context.Auctions.FirstOrDefault(x => x.Id == model.AuctionId);
+
+            if (lastBid == null)
+            {
+                if (model.Value == null || model.Value < auc.CurrentPrice)
+                {
+                    return RedirectToAction("Auction", new { id = model.AuctionId });
+                }
+            }
+            else if(model.Value == null || model.Value < lastBid.Value)
+            {
+                return RedirectToAction("Auction", new { id = model.AuctionId });
+            }
+
+
+            var bid = new Bid
+            {
+                AuctionId = model.AuctionId,
+                Value = model.Value.Value,
+                UserId = CurrentUserId,
+                BidTime = DateTime.Now
+
+            };
+
+            auc = context.Auctions.FirstOrDefault(x => x.Id == model.AuctionId);
+            auc.CurrentPrice = (int)model.Value;
+
+            context.Bids.Add(bid);
+            context.Auctions.Update(auc);
+            context.SaveChanges();
+
+            return RedirectToAction("Auction", new { id = model.AuctionId });
         }
 
 

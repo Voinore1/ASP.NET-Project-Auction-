@@ -45,6 +45,7 @@ namespace WebApplication1.Controllers
             LoadBodyStyles();
             LoadFuelTypes();
         }
+        
 
         [HttpGet]
         public IActionResult GetModelsByBrand(int brandId)

@@ -14,27 +14,7 @@ namespace Data.Configs
     {
         public void Configure(EntityTypeBuilder<Auction> builder)
         {
-            builder.HasOne(x => x.Seller)
-                .WithMany(x => x.Auctions)
-                .HasForeignKey(x => x.SellerId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(x => x.Venichle)
-                .WithOne(x => x.Auction)
-                .HasForeignKey<Auction>(x => x.VenichleId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            builder.HasMany(x => x.Viewers)
-                   .WithMany(x => x.WatchList);
-
-            builder.HasMany(x => x.Comments)
-                   .WithOne(x => x.Auction)
-                   .HasForeignKey(x => x.AuctionId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(x => x.Bids)
-                   .WithOne(x => x.Auction)
-                   .HasForeignKey(x => x.AuctionId);
+            builder.HasOne(x => x.Seller).WithMany(x => x.Auctions).HasForeignKey(x => x.SellerId);
         }
     }
 }

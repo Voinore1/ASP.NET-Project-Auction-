@@ -34,7 +34,6 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Balance = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -214,6 +213,34 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Auctions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VenichleId = table.Column<int>(type: "int", nullable: true),
+                    SellerId = table.Column<int>(type: "int", nullable: false),
+                    TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MinDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartPrice = table.Column<int>(type: "int", nullable: false),
+                    CurrentPrice = table.Column<int>(type: "int", nullable: false),
+                    IsSold = table.Column<bool>(type: "bit", nullable: false),
+                    CityNow = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auctions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Auctions_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Models",
                 columns: table => new
                 {
@@ -229,6 +256,61 @@ namespace Data.Migrations
                         name: "FK_Models_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bids",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AuctionId = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<int>(type: "int", nullable: false),
+                    BidTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bids", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bids_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Bids_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AuctionId = table.Column<int>(type: "int", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsSeller = table.Column<bool>(type: "bit", nullable: false),
+                    CommentTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comments_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -271,6 +353,11 @@ namespace Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Venichles_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Venichles_BodyStyles_BodyStyleId",
                         column: x => x.BodyStyleId,
                         principalTable: "BodyStyles",
@@ -297,123 +384,6 @@ namespace Data.Migrations
                         name: "FK_Venichles_Transmissions_TransmissionId",
                         column: x => x.TransmissionId,
                         principalTable: "Transmissions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Auctions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    VenichleId = table.Column<int>(type: "int", nullable: true),
-                    SellerId = table.Column<int>(type: "int", nullable: false),
-                    TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MinDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartPrice = table.Column<int>(type: "int", nullable: false),
-                    CurrentPrice = table.Column<int>(type: "int", nullable: false),
-                    IsSold = table.Column<bool>(type: "bit", nullable: false),
-                    CityNow = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Auctions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Auctions_AspNetUsers_SellerId",
-                        column: x => x.SellerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Auctions_Venichles_VenichleId",
-                        column: x => x.VenichleId,
-                        principalTable: "Venichles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AuctionUser",
-                columns: table => new
-                {
-                    ViewersId = table.Column<int>(type: "int", nullable: false),
-                    WatchListId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuctionUser", x => new { x.ViewersId, x.WatchListId });
-                    table.ForeignKey(
-                        name: "FK_AuctionUser_AspNetUsers_ViewersId",
-                        column: x => x.ViewersId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuctionUser_Auctions_WatchListId",
-                        column: x => x.WatchListId,
-                        principalTable: "Auctions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bid",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    AuctionId = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<int>(type: "int", nullable: false),
-                    BidTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bid", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bid_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bid_Auctions_AuctionId",
-                        column: x => x.AuctionId,
-                        principalTable: "Auctions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AuctionId = table.Column<int>(type: "int", nullable: false),
-                    ReplyCommentId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsReply = table.Column<bool>(type: "bit", nullable: false),
-                    IsSeller = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comments_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comments_Auctions_AuctionId",
-                        column: x => x.AuctionId,
-                        principalTable: "Auctions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -559,25 +529,13 @@ namespace Data.Migrations
                 column: "SellerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Auctions_VenichleId",
-                table: "Auctions",
-                column: "VenichleId",
-                unique: true,
-                filter: "[VenichleId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuctionUser_WatchListId",
-                table: "AuctionUser",
-                column: "WatchListId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bid_AuctionId",
-                table: "Bid",
+                name: "IX_Bids_AuctionId",
+                table: "Bids",
                 column: "AuctionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bid_UserId",
-                table: "Bid",
+                name: "IX_Bids_UserId",
+                table: "Bids",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -594,6 +552,13 @@ namespace Data.Migrations
                 name: "IX_Models_BrandId",
                 table: "Models",
                 column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Venichles_AuctionId",
+                table: "Venichles",
+                column: "AuctionId",
+                unique: true,
+                filter: "[AuctionId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Venichles_BodyStyleId",
@@ -645,25 +610,19 @@ namespace Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AuctionUser");
-
-            migrationBuilder.DropTable(
-                name: "Bid");
+                name: "Bids");
 
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Venichles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Auctions");
-
-            migrationBuilder.DropTable(
-                name: "Venichles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "BodyStyles");
@@ -676,6 +635,9 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Transmissions");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Brands");

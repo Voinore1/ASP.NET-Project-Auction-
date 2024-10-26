@@ -12,11 +12,8 @@ namespace Data.Configs
     public class BrandConfigs : IEntityTypeConfiguration<Brand>
     {
         public void Configure(EntityTypeBuilder<Brand> builder)
-        { 
-            builder.HasMany(x => x.Models)
-                   .WithOne(x => x.Brand)
-                   .HasForeignKey(x => x.BrandId)
-                   .OnDelete(DeleteBehavior.Cascade);
+        {
+            builder.HasMany(x => x.Models).WithOne(x => x.Brand).HasForeignKey(x => x.BrandId);
         }
 
     }

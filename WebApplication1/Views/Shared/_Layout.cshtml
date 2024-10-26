@@ -16,27 +16,18 @@
                 <a class="navbar-brand mr-4 fw-bold fs-2 me-4 " asp-area="" asp-controller="Home" asp-action="Index">bids<span>&</span>cars</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 fs-5">
-                        <li class="nav-item dropdown">
+                        @* <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Auctions
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Live Auctions</a></li>
-                                <li><a class="dropdown-item" href="#">Featured Auction</a></li>
-                                <li><a class="dropdown-item" href="#">Past Results</a></li>
+                                <li><a class="dropdown-item text-black" asp-controller="Home" asp-action="Index">Live Auctions</a></li>
+                                <li><a class="dropdown-item text-black" asp-controller="Home" asp-action="Index">Featured Auction</a></li>
+                                <li><a class="dropdown-item text-black" asp-controller="Home" asp-action="Index">Past Results</a></li>
                             </ul>
-                        </li>
+                        </li> *@
                         <li class="nav-item">
                             <a class="nav-link text-dark rounded-pill bg-success  px-3 mt-1" asp-controller="Account" asp-action="SellCar">Sell a Car</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Community</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">What's Bids & Cars?</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Daily Email</a>
                         </li>
                     </ul>
 
@@ -59,11 +50,11 @@
                                 <i class="bi bi-car-front-fill"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg-end">
-                                <li><a class="dropdown-item nav-link" href="#">Profile</a></li>
+                                @* <li><a class="dropdown-item nav-link" href="#">Profile</a></li>
                                 <li><a class="dropdown-item nav-link" href="#">Watch List</a></li>
-                                <li><a class="dropdown-item nav-link" href="#">Seller Dashboard</a></li>
+                                <li><a class="dropdown-item nav-link" href="#">Seller Dashboard</a></li> *@
                                 <li><a class="dropdown-item nav-link" asp-controller="Account" asp-action="MyVehichles">My vehichles</a></li>
-                                <li><a class="dropdown-item nav-link" href="#">Settings</a></li>
+                                @* <li><a class="dropdown-item nav-link" href="#">Settings</a></li> *@
                                 <partial name="_LoginPartial"/>
                             </ul>
                         </li>
