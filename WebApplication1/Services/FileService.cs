@@ -1,14 +1,7 @@
-﻿
+﻿using Core.Services;
+
 namespace WebApplication1.Services
 {
-    public interface IFileService
-    {
-        Task<string> SaveImage(IFormFile file);
-        Task<string> EditImage(IFormFile file, string path);
-        void DeleteImage(string path);
-        Task<IList<string>> SaveImages(List<IFormFile> files);
-        Task<IList<string>> EditImages(List<IFormFile> files, IList<string> paths);
-    }
     public class FileService(IWebHostEnvironment evn) : IFileService
     {
         const string folderName = "Images";

@@ -1,9 +1,10 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.MapperProfiles;
 using WebApplication1.Services;
 using Microsoft.AspNetCore.Identity;
 using Data.Entities;
+using Core.Services;
+using Core.MapperProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using Core.Models;
+using Core.Services;
 using Data.Entities;
 using Data.Entities.VenichleInfo;
-using WebApplication1.Models;
-using WebApplication1.Services;
 
-namespace WebApplication1.MapperProfiles
+namespace Core.MapperProfiles
 {
     public class AppProfile : Profile
     {
@@ -46,7 +46,7 @@ namespace WebApplication1.MapperProfiles
     {
         public void Process(EditCarModel s, Venichle d, ResolutionContext context)
         {
-            if(s.MainPhoto != null) d.MainPhotoURL = service.EditImage(s.MainPhoto, d.MainPhotoURL).Result;
+            if (s.MainPhoto != null) d.MainPhotoURL = service.EditImage(s.MainPhoto, d.MainPhotoURL).Result;
             if (s.ExteriorPhotos != null) d.ExteriorPhotosURLId = service.SaveImages(s.ExteriorPhotos.ToList()).Result;
             if (s.InteriorPhotos != null) d.InteriorPhotosURLId = service.SaveImages(s.InteriorPhotos.ToList()).Result;
         }

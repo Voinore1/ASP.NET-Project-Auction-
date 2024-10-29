@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Core.Models;
+using Core.Services;
 using Data;
 using Data.Entities;
 using Data.Entities.VenichleInfo;
@@ -6,12 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using System.Security.Claims;
-using WebApplication1.Models;
-using WebApplication1.Services;
 
-namespace WebApplication1.Controllers
+namespace Core.Controllers
 {
     [Authorize]
     public class AccountController(IMapper mapper, AuctionDBContext context, IFileService fileService) : Controller
